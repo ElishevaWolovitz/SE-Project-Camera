@@ -12,7 +12,7 @@ public class Point {
 	 */
 	public static final Point ZERO = new Point(0, 0, 0);
 	/**
-	 * constructor that recieves an object of type Double3
+	 * constructor that receives an object of type Double3
 	 * @param xyz
 	 */
 	public Point(Double3 xyz) {
