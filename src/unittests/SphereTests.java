@@ -8,7 +8,7 @@ import geometries.*;
 
 public class SphereTests {
 	     /**
-	     * Test method for GetNormal
+	     * Test method for {@link geometries.Sphere#getNormal(primitives.Point3D)}.
 	     */
 	    @Test
 	    public void testGetNormal() {

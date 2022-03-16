@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import primitives.*; 
+import geometries.*; 
+
 /**
  * @author elish
  *
@@ -19,7 +22,7 @@ import org.junit.jupiter.api.Test;
  */
 public class TubeTests {
      /**
-     * Test method for getNormal
+     * Test method for {@link geometries.Tube#getNormal(primitives.Point3D)}.
      */
     @Test
     public void testGetNormal() {

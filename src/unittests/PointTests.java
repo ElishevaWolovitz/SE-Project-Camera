@@ -17,7 +17,7 @@ import static primitives.Util.*;
 public class PointTests {
 
     /**
-     * Test method for Subtract
+     * Test method for {@link primitives.Point#Point(double, double, double)}.
      */
 	 @Test
 	    public void testSubtract() {

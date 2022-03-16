@@ -8,7 +8,8 @@ import geometries.*;
 
 class PlaneTests {
 	    /**
-	     * Test method for constructor
+	     * Test method for
+	     * {@link geometries.Plane#Plane(primitives.Point3D, primitives.Point3D, primitives.Point3D)}.
 	     */
 	    @Test
 	    public void testPlane() {
@@ -23,7 +24,7 @@ class PlaneTests {
 
 
 	     /**
-	     * Test method for GetNormal
+	     * Test method for {@link geometries.Plane#getNormal(primitives.Point3D)}.
 	     */
 	    @Test
 	    public void testGetNormal() {

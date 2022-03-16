@@ -18,7 +18,7 @@ import primitives.*;
 public class PolygonTests {
 
 	/**
-	 * Test method for constructor
+	 * Test method for {@link geometries.Polygon#Polygon(primitives.Point...)}.
 	 */
 	@Test
 	public void testConstructor() {

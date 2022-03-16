@@ -29,7 +29,7 @@ class VectorTests {
 	@Test
 	void testAddVector() {
 		Vector v1 = new Vector(1, 2, 3);
-		assertTrue(!(v1.add(new Vector(1, -2, -3)).equals(new Vector(2, 0, 0))),"ERROR: Vector + Vector does not work correctly");
+		assertEquals(v1.add(new Vector(1, -2, -3)),new Vector(2, 0, 0),"ERROR: Vector + Vector does not work correctly");
 	}
 
 	/**
@@ -39,7 +39,7 @@ class VectorTests {
 	void testScale() {
 		Vector v1 = new Vector(1, 2, 3);
 		Vector v2 = new Vector(3, 6, 9);
-		assertTrue(!(v1.scale(3) == v2), "ERROR: scale() wrong answer"); 
+		assertEquals(v1.scale(3), v2, "ERROR: scale() wrong answer"); 
 	}
 
 	/**
@@ -50,8 +50,8 @@ class VectorTests {
 		Vector v1 = new Vector(1, 2, 3);
 		Vector v2 = new Vector(-2, -4, -6);
 		Vector v3 = new Vector(0, 3, -2);
-		assertTrue(!isZero(v1.dotProduct(v3)),"ERROR: dotProduct() for orthogonal vectors is not zero");
-		assertTrue(!isZero(v1.dotProduct(v2) + 28),"ERROR: dotProduct() wrong value");
+		assertTrue(isZero(v1.dotProduct(v3)),"ERROR: dotProduct() for orthogonal vectors is not zero");
+		assertTrue(isZero(v1.dotProduct(v2) + 28),"ERROR: dotProduct() wrong value");
 
 	}
 
@@ -61,7 +61,7 @@ class VectorTests {
 	@Test
 	void testLengthSquared() {	
 		Vector v1 = new Vector(1, 2, 3);
-		 assertTrue(!(isZero(v1.lengthSquared() - 14)), "ERROR: lengthSquared() wrong value");
+		 assertTrue((isZero(v1.lengthSquared() - 14)), "ERROR: lengthSquared() wrong value");
 	}
 
 	/**
@@ -69,7 +69,7 @@ class VectorTests {
 	 */
 	@Test
 	void testLength() {
-		assertTrue(!isZero(new Vector(0, 3, 4).length() - 5),"ERROR: length() wrong value");
+		assertTrue(isZero(new Vector(0, 3, 4).length() - 5),"ERROR: length() wrong value");
 	}
 
 	/**
@@ -77,15 +77,13 @@ class VectorTests {
 	 */
 	@Test
 	void testNormalize() {
-		Vector v = new Vector(1, 2, 3);
+		Vector v = new Vector(0, 0, 5);
 		Vector u = v.normalize();
-		assertTrue(!isZero(u.length() - 1), "ERROR: the normalized vector is not a unit vector");
-		try { // test that the vectors are co-lined
-			v.crossProduct(u);
-			out.println("ERROR: the normalized vector is not parallel to the original one");
-		} catch (Exception e) {
-		}
-		assertTrue(v.dotProduct(u) < 0,"ERROR: the normalized vector is opposite to the original one");
+		Vector expected= new Vector(0,0,1);
+		assertEquals(u,expected, "ERROR:normalizing vector");
+		assertTrue(isZero(u.length() - 1), "ERROR: the normalized vector is not a unit vector");
+		assertThrows(IllegalArgumentException.class,()->v.crossProduct(u),"ERROR: the normalized vector is not parallel to the original one");
+		assertTrue(v.dotProduct(u) > 0,"ERROR: the normalized vector is opposite to the original one");
 	}
 
 	/**
@@ -105,8 +103,8 @@ class VectorTests {
 		catch (Exception e) {
 		}
 		Vector vr = v1.crossProduct(v3);
-		assertTrue(!isZero(vr.length() - v1.length() * v3.length()),"ERROR: crossProduct() wrong result length");
-		assertTrue(!isZero(vr.dotProduct(v1)) || !isZero(vr.dotProduct(v3)),"ERROR: crossProduct() result is not orthogonal to its operands");
+		assertEquals(vr.length(),v1.length() * v3.length(),0.0001,"ERROR: crossProduct() wrong result length");
+		assertTrue(isZero(vr.dotProduct(v1)) && isZero(vr.dotProduct(v3)),"ERROR: crossProduct() result is not orthogonal to its operands");
     }
 
 	
