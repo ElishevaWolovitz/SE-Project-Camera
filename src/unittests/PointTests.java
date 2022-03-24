@@ -14,7 +14,7 @@ import static primitives.Util.*;
  * Unit tests for primitives.Point class
  * 
  */
-public class PointTests {
+public class PointTests { 
 
     /**
      * Test method for {@link primitives.Point#Point(double, double, double)}.

@@ -11,7 +11,7 @@ import geometries.*;
 public class PlaneTests {
 	/**
 	 * Test method for
-	 * {@link geometries.Plane#Plane(primitives.Point3D, primitives.Point3D, primitives.Point3D)}.
+	 * {@link geometries.Plane#Plane(primitives.Point, primitives.Point, primitives.Point)}.
 	 */
 	@Test
 	public void testPlane() {
@@ -25,7 +25,7 @@ public class PlaneTests {
 	}
 
 	/**
-	 * Test method for {@link geometries.Plane#getNormal(primitives.Point3D)}.
+	 * Test method for {@link geometries.Plane#getNormal(primitives.Point)}.
 	 */
 	@Test
 	public void testGetNormal() {
@@ -37,6 +37,10 @@ public class PlaneTests {
 		assertEquals("Incorrect plane normal", actual, expected);
 	}
 
+	/**
+	 * Test method for {@link geometries.Plane#findIntersections()}.
+	 * @author elana
+	 */
 	@Test
 	public void testFindIntersections() {
 		Plane plane = new Plane(new Point(0, 3, -7), new Point(1, 3, 3), new Point(2, 3, 4));

@@ -10,9 +10,7 @@ import geometries.*;
 import primitives.*;
 
 /**
- * Testing Triangles
- * 
- * @author elana
+ *  Test method for {@link geometries.Triangle#findIntersections()}.
  */
 public class TriangleTests {
 
@@ -22,6 +20,9 @@ public class TriangleTests {
 		Ray ray;
 		List<Point> expected, actual;
 
+		/**
+		 * @author elana
+		 */
 		// ============ BVA ================
 		// On edge of triangle
 		ray = new Ray(new Point(5,5,10), new Vector(0,0,-1));

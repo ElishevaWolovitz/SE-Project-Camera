@@ -9,7 +9,10 @@ import org.junit.Test;
 import primitives.*;
 import geometries.*;
 
+
+
 /**
+ *  Test method for {@link geometries.Geometries#findIntersections()}.
  * @author elana
  *
  */
