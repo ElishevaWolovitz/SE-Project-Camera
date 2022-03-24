@@ -13,7 +13,7 @@ public class Cylinder extends Tube{
 	}
 	
 	/**
-	 * @brief sets values to fields in Cyllinder
+	 * @brief sets values to fields in Cylinder
 	 * @param d1
 	 */
 	public Cylinder(double rad, Ray ray, double d1)

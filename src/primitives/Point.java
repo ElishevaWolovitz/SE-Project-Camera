@@ -77,6 +77,18 @@ public class Point {
 		double d = this.distanceSquared(p2); 
 		return  java.lang.Math.sqrt(d); 
 	}
+	public double getX() {
+
+		return this.xyz.d1;
+	}
+	public double getY() {
+		
+		return xyz.d2;
+	}
+	public double getZ() {
+		
+		return xyz.d3;
+	}
 	
 	
 

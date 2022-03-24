@@ -4,10 +4,13 @@ package geometries;
 
 import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
+
 import primitives.Point; 
 
 
-public class Tube {
+public class Tube implements Geometry{
 	protected Ray axisRay;
 	protected double radius;
 
@@ -16,13 +19,20 @@ public class Tube {
 		axisRay = ray; 
 		radius=r1;
 	}
-
+	
+	@Override
 	public Vector getNormal(Point point)
 	{
 		double scalar = axisRay.dir.dotProduct(point.subtract(axisRay.p0));
 		// find where the point ray projects onto the axis ray
 		Point closest = axisRay.p0.add(axisRay.dir.scale(scalar));
 		return point.subtract(closest).normalize();
+	}
+
+	@Override
+	public List<Point> findIntersections(Ray ray) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
