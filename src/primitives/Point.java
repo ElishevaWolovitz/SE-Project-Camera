@@ -6,7 +6,7 @@ package primitives;
  */
 
 public class Point {
-	final Double3 xyz;
+	public final Double3 xyz;
 	/**
 	 * Zero point (0,0,0)
 	 */
