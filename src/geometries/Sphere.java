@@ -34,22 +34,27 @@ public class Sphere implements Geometry {
 			//if the center of the sphere
 			//and the origin of the ray are the same
 			//return the point that's the distance 'radius' from the origin
+			
 			if (center.equals(ray.p0))
 			{
 				return List.of(ray.getPoint(radius)); 
 			}
+			
 			//vector from the ray origin to the center of the sphere
 			Vector u = center.subtract(ray.p0); 
 			//projection of u onto the ray's direction
 			//gives you the distance to the point
 			//between the two points of intersection
 			tm = ray.dir.dotProduct(u); 
+			
 			//find the distance from the center of the sphere to the midpoint 
 			//of the solutions
 			uLenSqrd = u.lengthSquared(); 
 			d = Math.sqrt(uLenSqrd - (tm*tm)); 
+		
 			if (d > radius)
 			{
+				
 		        return null;
 			}
 			//tn is the distance from the midpoint to

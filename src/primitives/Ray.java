@@ -10,7 +10,7 @@ public class Ray {
 
 	public Ray(Point p1, Vector v1) {
 		p0 = p1;
-		dir = v1;
+		dir = v1.normalize();
 	}
 
 	public boolean equals(Object obj) {
