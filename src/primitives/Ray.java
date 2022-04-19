@@ -1,7 +1,6 @@
 package primitives;
 
-import primitives.Point;
-import primitives.Vector;
+import java.util.List;
 
 public class Ray {
 
@@ -30,5 +29,14 @@ public class Ray {
 
 	public Point getPoint(double t) {
 		return p0.add(dir.scale(t));
+	}
+	/**
+	 * 
+	 * @param lst - a list of points
+	 * @return a point that is the point closest to the rays head
+	 */
+	public Point findClosestPoint(List<Point> lst)
+	{
+		return null; 
 	}
 }
