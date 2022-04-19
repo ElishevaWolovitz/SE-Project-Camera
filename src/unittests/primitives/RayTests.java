@@ -18,6 +18,11 @@ class RayTests {
 
 	/**
 	 * Test method for {@link primitives.Ray#findClosestPoint(java.util.List)}.
+	 * 1 equivalence test - closest point in middle of list 
+	 * 3 boundary tests 
+	 * 	- empty list
+	 * 	- closest point first item in list 
+	 * 	- closest point last item in list
 	 */
 	@Test
 	void testFindClosestPoint() {
