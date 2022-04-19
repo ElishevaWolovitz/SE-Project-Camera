@@ -37,6 +37,19 @@ public class Ray {
 	 */
 	public Point findClosestPoint(List<Point> lst)
 	{
-		return null; 
+		Point temp, closestPoint; 
+		closestPoint = lst.get(0);
+		double dis1, dis2; 
+		for (int i = 1; i < lst.size(); i++)
+		{
+			temp = lst.get(i); 
+			dis1 = p0.distance(temp); 
+			dis2 = p0.distance(closestPoint); 
+			if(dis1 < dis2)
+			{
+				closestPoint = temp; 
+			}
+		}
+		return closestPoint; 
 	}
 }
