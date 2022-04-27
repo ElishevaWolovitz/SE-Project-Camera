@@ -43,7 +43,7 @@ public class GeometriesTest {
         assertEquals("only one shape intersects", expected1, actual1);
 
         // all shapes intersects
-        List<Point> expected2 = List.of(new Point(0, 3, 2), new Point(0, -2, 2), new Point(0, 2, 2));
+        List<Point> expected2 = List.of(new Point(0, 3, 2), new Point(0, 2, 2), new Point(0, -2, 2));
         List<Point> actual2 = geometries2.findIntersections(ray3);
         assertEquals("all shapes intersects",expected2, actual2);
 
