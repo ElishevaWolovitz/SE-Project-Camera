@@ -1,5 +1,6 @@
 package renderer;
 
+import java.util.List;
 import java.util.MissingResourceException;
 
 import primitives.*;
@@ -197,13 +198,15 @@ public class Camera {
     		    System.out.println("null field"); 
     		    
     		  }
-    	 Ray r; 
+    	 Ray r;
+    	 Color c; 
     	 for( int i = 0; i < imWr.getNx(); i++)
     	 {
     		 for (int j = 0; j < imWr.getNy(); j++)
     		 {
     			r = constructRayThroughPixel(imWr.getNx(), imWr.getNy(), j, i);
-    			imWr.writePixel(i, j, rtb.s.background);
+    			c = rtb.traceRay(r); 
+    			imWr.writePixel(i, j, c);
     		 }
     	 }
     }
