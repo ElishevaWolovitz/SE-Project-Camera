@@ -26,7 +26,7 @@ public class RayTracerBasic extends RayTracerBase{
    	 Point p; 
    	 Color c; 
 	 lstGeos = s.geometries.findIntersections(r); 
-	 if(lstGeos.isEmpty())
+	 if(lstGeos == null)
 		 return s.background; 
 	 p = r.findClosestPoint(lstGeos); 
 	 c = calColor(p); 

@@ -1,6 +1,6 @@
 package renderer;
 
-import java.util.List;
+//import java.util.List;
 import java.util.MissingResourceException;
 
 import primitives.*;
@@ -224,12 +224,14 @@ public class Camera {
     		throw new MissingResourceException(null, null, null); 
     	 
          // for each pixel, write the color
-         for (int col = 0; col < imWr.getNx(); col++) {
-             for (int row = 0; row < imWr.getNy(); row++) {
-            	 if (col % interval != 0 && row % interval != 0) {
-                     imWr.writePixel(col, row, color);
+         for (int col = 0; col < imWr.getNx(); ) {
+             for (int row = 0; row < imWr.getNy(); ) {
+            	 if (col % interval == 0 || row % interval == 0) {
+                     imWr.writePixel(col, row, color); 
                  }
+            	 row += interval; 
              }
+             col += interval; 
          }
          imWr.writeToImage();
     }
