@@ -1,6 +1,7 @@
 package elements;
 
 import primitives.Color;
+import primitives.Double3;
 
 /**
  * Ambient light
@@ -18,7 +19,7 @@ public class AmbientLight {
     /**
      * Ambient Light constructor
      */
-    public AmbientLight(Color color, double ka) {
+    public AmbientLight(Color color, Double3 ka) {
         intensity = color.scale(ka);
     }
 

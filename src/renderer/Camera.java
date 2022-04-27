@@ -62,16 +62,23 @@ public class Camera {
      *
      * @return Camera
      */
-    public Camera setDistance(double distance) {
+    public Camera setVPDistance(double distance) {
         this.distance = distance;
         return this;
+    }
+    
+    public Camera setVPSize(double width, double height)
+    {
+    	this.width = width; 
+    	this.height = height; 
+    	return this; 
     }
     /**
      * set ray tracer base 
      * @param r
      * @return camera 
      */
-    public Camera setRtb(RayTracerBase r)
+    public Camera setRayTracer(RayTracerBase r)
     {
     	rtb = r; 
     	return this; 
@@ -81,7 +88,7 @@ public class Camera {
      * @param iw
      * @return camera
      */
-    public Camera setImWr(ImageWriter iw)
+    public Camera setImageWriter(ImageWriter iw)
     {
     	imWr = iw; 
     	return this; 
