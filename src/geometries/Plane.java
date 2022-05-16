@@ -40,7 +40,7 @@ public class Plane extends Geometry {
 	}
 
 	@Override
-	public List<GeoPoint> findIntersections(Ray ray) {
+	public List<GeoPoint> findIntersectionsHelper(Ray ray) {
 		// P0: Ray origin
 		// V: Ray direction
 		// Q0: Point on the plane

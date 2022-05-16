@@ -15,8 +15,8 @@ public class Triangle extends Polygon {
 	}
 
 	@Override
-	public List<GeoPoint> findIntersections(Ray ray) {
-		List<GeoPoint> planeIntersections = this.plane.findIntersections(ray);
+	public List<GeoPoint> findIntersectionsHelper(Ray ray) {
+		List<GeoPoint> planeIntersections = this.plane.findIntersectionsHelper(ray);
 
 		// if ray does not intersect with the plane the triangle lies on
 		// it does not intersect with the triangle either
