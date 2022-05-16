@@ -66,6 +66,12 @@ public abstract class Intersectable {
      * 
      * @return List of intersection points with the geometries they intersect with
      */
+    public List<Point> findIntersections(Ray ray) {
+        var geoList = findGeoIntersections(ray);
+        return geoList == null ? null
+                               : geoList.stream().map(gp -> gp.point).collect(Collectors.toList());
+    }
+
 
     protected abstract List<GeoPoint> findIntersectionsHelper(Ray ray);
 
