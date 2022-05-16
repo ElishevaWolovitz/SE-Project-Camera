@@ -207,13 +207,13 @@ public class Camera {
     		  }
     	 Ray r;
     	 Color c; 
-    	 for( int i = 0; i < imWr.getNx(); i++)
+    	 for( int i = 0; i < imWr.getNy(); i++)
     	 {
-    		 for (int j = 0; j < imWr.getNy(); j++)
+    		 for (int j = 0; j < imWr.getNx(); j++)
     		 {
     			r = constructRayThroughPixel(imWr.getNx(), imWr.getNy(), j, i);
     			c = rtb.traceRay(r); 
-    			imWr.writePixel(i, j, c);
+    			imWr.writePixel(j, i, c);
     		 }
     	 }
     }
@@ -224,10 +224,10 @@ public class Camera {
     		throw new MissingResourceException(null, null, null); 
     	 
          // for each pixel, write the color
-         for (int col = 0; col < imWr.getNx(); ) {
-             for (int row = 0; row < imWr.getNy(); ) {
+         for (int col = 0; col < imWr.getNy(); ) {
+             for (int row = 0; row < imWr.getNx(); ) {
             	 if (col % interval == 0 || row % interval == 0) {
-                     imWr.writePixel(col, row, color); 
+                     imWr.writePixel(row, col, color); 
                  }
             	 row += interval; 
              }
