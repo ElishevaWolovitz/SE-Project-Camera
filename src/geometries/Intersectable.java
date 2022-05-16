@@ -48,6 +48,13 @@ public abstract class Intersectable {
             GeoPoint g = (GeoPoint) o;
             return g.geometry.equals(geometry) && g.point.equals(point);
         }
+        /**
+         * 
+         */
+        @Override
+        public String toString() {
+        	return point.toString() + ", " + geometry.toString(); 
+        }
     }
 
     /**
@@ -57,5 +64,10 @@ public abstract class Intersectable {
      * 
      * @return List of intersection points with the geometries they intersect with
      */
-    public abstract List<GeoPoint> findIntersections(Ray ray);
+    public List<GeoPoint> findIntersections(Ray ray)
+    {
+    	return findIntersectionHelper(ray);
+    }
+    
+    protected abstract List<GeoPoint> findIntersectionsHelper(Ray ray);
 }
