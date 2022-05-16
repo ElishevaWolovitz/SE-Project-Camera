@@ -3,10 +3,9 @@ package geometries;
 import java.util.LinkedList;
 import java.util.List;
 
-import primitives.Point;
 import primitives.Ray;
 
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     /**
      * List of geometries
@@ -33,15 +32,15 @@ public class Geometries implements Intersectable {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         if (geometryList.isEmpty()) {
             return null;
         }
         // initialize the list of intersection points to null
-        List<Point> intersections = null;
+        List<GeoPoint> intersections = null;
         for (Intersectable geometry : geometryList) {
             // get the intersection points of the current geometry
-            List<Point> tempIntersections = geometry.findIntersections(ray);
+            List<GeoPoint> tempIntersections = geometry.findIntersections(ray);
             // if there are no intersection points, continue
             // otherwise, add the intersection points to the list of intersection points
             if (tempIntersections != null) {

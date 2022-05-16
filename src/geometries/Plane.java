@@ -8,7 +8,7 @@ import primitives.Vector;
 
 import static primitives.Util.alignZero;
 
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 	protected Point q0;
 	protected Vector normal;
 
@@ -38,13 +38,9 @@ public class Plane implements Geometry {
 		this.normal = v1;
 		this.q0 = p1;
 	}
-	// public List<GeoPoint> findGeoIntersections(Ray ray)
-	// {
-	// return null;
-	// }
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	public List<GeoPoint> findIntersections(Ray ray) {
 		// P0: Ray origin
 		// V: Ray direction
 		// Q0: Point on the plane
@@ -61,7 +57,7 @@ public class Plane implements Geometry {
 		// Only add the intersection point if it's in front of the ray,
 		// and the distance is not infinite (not parallel)
 		if (alignZero(t) > 0 && !Double.isInfinite(t)) {
-			Point p = ray.getPoint(t);
+			GeoPoint p = new GeoPoint(this, ray.getPoint(t));
 			return List.of(p);
 		}
 
