@@ -8,21 +8,26 @@ import primitives.*;
  * @author elish
  *
  */
-
 public abstract class RayTracerBase {
-	protected Scene s; 
+
+	protected Scene scene;
+	
 	/**
-	 * parameter constructor 
+	 * RayTracerBase constructor 
+	 * 
 	 * @param s
 	 */
-	public RayTracerBase(Scene s)
+	protected RayTracerBase(Scene s)
 	{
-		this.s = s; 
+		this.scene = s; 
 	}
+
 	/**
-	 * abstract class 
-	 * @param c which is a color
-	 * @return a ray 
+	 * Find the color of the closest object hit by the ray.
+	 *  
+	 * @param ray The ray to test
+	 * 
+	 * @return The color of the closest object hit by the ray.
 	 */
-	public abstract Color traceRay(Ray r); 
+	public abstract Color traceRay(Ray ray); 
 }

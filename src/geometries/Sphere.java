@@ -23,7 +23,7 @@ public class Sphere extends Geometry {
 	}
 
 	@Override
-	public List<GeoPoint> findIntersectionsHelper(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		double tm, uLenSqrd, d, tn, t1, t2;
 		Point p1, p2;
 

@@ -1,6 +1,7 @@
 package geometries;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import primitives.Point;
 import primitives.Ray;
@@ -46,8 +47,9 @@ public abstract class Intersectable {
                 return false;
             }
             GeoPoint g = (GeoPoint) o;
-            return g.geometry.equals(geometry) && g.point.equals(point);
+            return g.geometry == geometry && g.point == point;
         }
+
         /**
          * @author elish
          * @apiNote returns GeoPoint as a string
@@ -55,7 +57,7 @@ public abstract class Intersectable {
          */
         @Override
         public String toString() {
-        	return point.toString() + ", " + geometry.toString(); 
+            return point.toString() + ", " + geometry.toString();
         }
     }
 
@@ -67,13 +69,28 @@ public abstract class Intersectable {
      * @return List of intersection points with the geometries they intersect with
      */
     public List<Point> findIntersections(Ray ray) {
-        var geoList = findGeoIntersections(ray);
+        var geoList = findGeoIntersectionsHelper(ray);
         return geoList == null ? null
-                               : geoList.stream().map(gp -> gp.point).collect(Collectors.toList());
+                : geoList.stream().map(gp -> gp.point).collect(Collectors.toList());
     }
 
+    /**
+     * Finds the list of geopoints that intersect with the ray
+     * 
+     * @param ray The ray to find the intersection points with
+     * 
+     * @return List of geopoints that intersect with the ray
+     */
+    public List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersectionsHelper(ray);
+    }
 
-    protected abstract List<GeoPoint> findIntersectionsHelper(Ray ray);
-
-    
+    /**
+     * Finds the list of geopoints that intersect with the ray
+     * 
+     * @param ray The ray to find the intersection points with
+     * 
+     * @return List of geopoints that intersect with the ray
+     */
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 }
