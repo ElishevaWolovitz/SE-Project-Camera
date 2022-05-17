@@ -63,7 +63,7 @@ public class LightsTests {
 	@Test
 	public void spherePoint() {
 		scene1.geometries.add(sphere);
-		scene1.lights.add(new PointLight(spCL, spPL).setKl(0.001).setKq(0.0002));
+		scene1.lights.add(new PointLight(spCL, spPL).setKL(0.001).setKQ(0.0002));
 
 		ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 500, 500);
 		camera1.setImageWriter(imageWriter) //
