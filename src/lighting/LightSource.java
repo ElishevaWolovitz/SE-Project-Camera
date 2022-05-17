@@ -1,7 +1,7 @@
 package lighting;
 
 import primitives.Color;
-import primitives.Point;
+import primitives.*;
 
 /**
  * Interface for light sources.
@@ -23,5 +23,5 @@ public interface LightSource {
      * 
      * @return The direction of the light.
      */
-    public Point getL(Point p);
+    public Vector getL(Point p);
 }
