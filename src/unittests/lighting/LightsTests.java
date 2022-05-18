@@ -40,7 +40,7 @@ public class LightsTests {
 	private Geometry triangle2 = new Triangle(p[0], p[1], p[3]).setMaterial(material);
 	private Geometry sphere = new Sphere(new Point(0, 0, -50), 50d) //
 			.setEmission(new Color(BLUE).reduce(2)) //
-			.setMaterial(new Material().setKD(0.5).setKs(0.5).setShininess(300));
+			.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(300));
 
 	/**
 	 * Produce a picture of a sphere lighted by a directional light
@@ -78,7 +78,7 @@ public class LightsTests {
 	@Test
 	public void sphereSpot() {
 		scene1.geometries.add(sphere);
-		scene1.lights.add(new SpotLight(spCL, spPL, new Vector(1, 1, -0.5)).setKl(0.001).setKq(0.0001));
+		scene1.lights.add(new SpotLight(spCL, spPL, new Vector(1, 1, -0.5)).setKL(0.001).setKQ(0.0001));
 
 		ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 500, 500);
 		camera1.setImageWriter(imageWriter) //
@@ -159,6 +159,24 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesSpotSharp", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.renderImage() //
+				.writeToImage(); //
+	}
+	
+	/**
+	 * Produce a picture of a sphere lighted by a point light, direction light and spotlight
+	 */
+	@Test
+	public void sphereAllLights() {
+		scene1.geometries.add(sphere);
+		scene1.lights.add(new PointLight(spCL, spPL).setKL(0.001).setKQ(0.0002));
+		scene1.lights
+		.add(new SpotLight(spCL, spPL, new Vector(1, 1, -0.5)).setNarrowBeam(10).setKL(0.001).setKQ(0.00004));
+		scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
+
+		ImageWriter imageWriter = new ImageWriter("lightSphereAllLights", 500, 500);
+		camera1.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(scene1)) //
 				.renderImage() //
 				.writeToImage(); //
 	}

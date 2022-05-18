@@ -5,6 +5,8 @@ import java.util.List;
 
 import primitives.Ray;
 
+import static geometries.Intersectable.GeoPoint;
+
 public class Geometries extends Intersectable {
 
     /**

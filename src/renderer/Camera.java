@@ -196,7 +196,7 @@ public class Camera {
      * checks if any of the fields are null
      * @throws MissingResourceException
      */
-    public void renderImage() throws MissingResourceException 
+    public Camera renderImage() throws MissingResourceException 
     {
     	 try {
     		 if(p0 == null || vUp == null || vRight == null || width == 0 || height == 0 || distance == 0 || imWr == null || rtb == null)
@@ -216,6 +216,8 @@ public class Camera {
     			imWr.writePixel(j, i, c);
     		 }
     	 }
+    	 
+    	 return this;
     }
     
     public void printGrid(int interval, Color color)

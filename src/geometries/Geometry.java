@@ -13,6 +13,7 @@ public abstract class Geometry extends Intersectable {
 	 * Emission color of the geometry
 	 */
 	protected Color emission = Color.BLACK;
+	
 	/**
 	 * attribute of type Material
 	 */
@@ -53,6 +54,7 @@ public abstract class Geometry extends Intersectable {
 	 * @return normal vector at the point p1
 	 */
 	public abstract Vector getNormal(Point p1);
+
 	/**
 	 * setter for material 
 	 * @param m
