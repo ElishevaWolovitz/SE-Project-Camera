@@ -221,19 +221,19 @@ public class Camera {
     }
     
     public void printGrid(int interval, Color color)
-    {
+    { 
     	if(imWr == null)
     		throw new MissingResourceException(null, null, null); 
-    	 
+    	
          // for each pixel, write the color
-         for (int col = 0; col < imWr.getNy(); ) {
-             for (int row = 0; row < imWr.getNx(); ) {
+         for (int col = 0; col < imWr.getNy();col++ ) 
+         {
+             for (int row = 0; row < imWr.getNx(); row++) 
+             {
             	 if (col % interval == 0 || row % interval == 0) {
-                     imWr.writePixel(row, col, color); 
+        			imWr.writePixel(col, row, color);
                  }
-            	 row += interval; 
              }
-             col += interval; 
          }
          imWr.writeToImage();
     }
