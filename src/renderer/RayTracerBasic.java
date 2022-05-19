@@ -19,6 +19,13 @@ public class RayTracerBasic extends RayTracerBase {
 		super(s);
 	}
 
+	/**
+	 * Find the color of the closest object hit by the ray.
+	 *  
+	 * @param ray The ray to test
+	 * 
+	 * @return The color of the closest object hit by the ray.
+	 */
 	@Override
 	public Color traceRay(Ray ray) {
 		List<GeoPoint> lstGeoPoints = scene.geometries.findGeoIntersectionsHelper(ray);
