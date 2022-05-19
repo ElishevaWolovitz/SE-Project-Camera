@@ -169,14 +169,35 @@ public class LightsTests {
 	@Test
 	public void sphereAllLights() {
 		scene1.geometries.add(sphere);
-		scene1.lights.add(new PointLight(spCL, spPL).setKL(0.001).setKQ(0.0002));
+		scene1.lights.add(new PointLight(new Color(500,300,0), new Point(-100, -100, 50)).setKL(0.00001).setKQ(0.000001));
 		scene1.lights
-		.add(new SpotLight(spCL, spPL, new Vector(1, 1, -0.5)).setNarrowBeam(10).setKL(0.001).setKQ(0.00004));
-		scene1.lights.add(new DirectionalLight(spCL, new Vector(1, 1, -0.5)));
+		.add(new SpotLight(new Color(500,300,0), new Point(30,30,50), new Vector(1, 1, -2)) //
+				.setNarrowBeam(10).setKL(0.00001).setKQ(0.00000001));
+		scene1.lights.add(new DirectionalLight(new Color(500,300,0), new Vector(1, 1, -1)));
 
 		ImageWriter imageWriter = new ImageWriter("lightSphereAllLights", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.renderImage() //
+				.writeToImage(); //
+	}
+	
+	/**
+	 * Produce a picture of a two triangles lighted by a point light, direction light and spot light
+	 */
+	@Test
+	public void trianglesAllLights() {
+		scene2.geometries.add(triangle1.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(300)), 
+				triangle2.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(300)));
+		scene2.lights.add(new DirectionalLight(new Color(300, 150, 150), new Vector(0, 0, -1)));
+		scene2.lights.add(new SpotLight(new Color(500, 250, 250), new Point(-50, -50, -130), new Vector(-2, -2, -1)) //
+				.setKL(0.0001).setKQ(0.000005));
+		scene2.lights.add(new PointLight(new Color(500, 250, 250), new Point(50, 50, -130)) //
+				.setKL(0.0005).setKQ(0.0005));
+
+		ImageWriter imageWriter = new ImageWriter("lightTrianglesAllLights", 500, 500);
+		camera2.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(scene2)) //
 				.renderImage() //
 				.writeToImage(); //
 	}
