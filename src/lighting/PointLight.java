@@ -25,8 +25,8 @@ public class PointLight extends Light implements LightSource {
 	 * @param a double
 	 * @return object
 	 */
-	public PointLight setKC(double newKC) {
-		kC = newKC;
+	public PointLight setKC(double nKC) {
+		kC = nKC;
 		return this;
 	}
 
