@@ -31,65 +31,44 @@ public class Ray {
 	public Point getPoint(double t) {
 		return p0.add(dir.scale(t));
 	}
+
 	/**
+	 * Find closest point to the ray's origin
 	 * 
 	 * @param lst - a list of points
 	 * @return a point that is the point closest to the rays head
 	 */
 	public Point findClosestPoint(List<Point> points) {
-	    return points == null || points.isEmpty() ? null
-	           : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+		return points == null || points.isEmpty() ? null
+				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
 	}
 
-	/*public Point findClosestPoint(List<Point> lst)
-	{
-
-		Point temp, closestPoint;
-
-		//if list is empty
-		if (lst.isEmpty())
-		{
+	/**
+	 * Find closest geo intersection point to the ray's origin
+	 * 
+	 * @param lst - a list of geo points
+	 * @return a geo point that is the closest to the ray
+	 */
+	public GeoPoint findClosestGeoPoint(List<GeoPoint> lst) {
+		// if the list is null, return null
+		if (lst == null) {
 			return null;
 		}
 
-		closestPoint = lst.get(0);
-		double dis1, dis2; 
-		for (int i = 1; i < lst.size(); i++)
-		{
-			temp = lst.get(i); 
-			dis1 = p0.distance(temp); 
-			dis2 = p0.distance(closestPoint); 
-			if(dis1 < dis2)
-			{
-				closestPoint = temp; 
+		// closest point to the ray's origin found so far
+		GeoPoint closestPoint = null;
+		// distance squared to the closest point found so far
+		double closestDistanceSquared = Double.MAX_VALUE;
+
+		// for each GeoPoint, p, in the list
+		for (GeoPoint p : lst) {
+			double distanceSquared = p.point.distanceSquared(p0);
+			if (distanceSquared < closestDistanceSquared) {
+				closestPoint = p;
+				closestDistanceSquared = distanceSquared;
 			}
 		}
-		return closestPoint; 
-	}*/
-	
-	public GeoPoint findClosestGeoPoint(List<GeoPoint> lst)
-	{
 
-		GeoPoint temp, closestPoint;
-
-		//if list is empty
-		if (lst.isEmpty())
-		{
-			return null;
-		}
-
-		closestPoint = lst.get(0);
-		double dis1, dis2; 
-		for (int i = 1; i < lst.size(); i++)
-		{
-			temp = lst.get(i); 
-			dis1 = p0.distance(temp.point); 
-			dis2 = p0.distance(closestPoint.point); 
-			if(dis1 < dis2)
-			{
-				closestPoint = temp; 
-			}
-		}
-		return closestPoint; 
+		return closestPoint;
 	}
 }

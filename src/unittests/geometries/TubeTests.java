@@ -26,7 +26,7 @@ public class TubeTests {
      */
     @Test
     public void testGetNormal() {
-    	Ray r= new Ray(Point.ZERO, new Vector(1,0,0));
+    	Ray r = new Ray(Point.ZERO, new Vector(1,0,0));
         Tube tube = new Tube(r, 5.0);
 
         // ============ Boundary Value Tests ==============

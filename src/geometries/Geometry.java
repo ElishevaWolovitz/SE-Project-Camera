@@ -48,12 +48,12 @@ public abstract class Geometry extends Intersectable {
 	}
 	
 	/**
-	 * Get the normal vector of the geometry at the point p1
+	 * Get the normal vector of the geometry at the point
 	 * 
-	 * @param p1 point to get the normal vector at
-	 * @return normal vector at the point p1
+	 * @param point point to get the normal vector at
+	 * @return normal vector at the point
 	 */
-	public abstract Vector getNormal(Point p1);
+	public abstract Vector getNormal(Point point);
 
 	/**
 	 * setter for material 

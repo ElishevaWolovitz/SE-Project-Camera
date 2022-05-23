@@ -59,5 +59,4 @@ public class Material {
 		nShininess = x;
 		return this;
 	}
-
 }
