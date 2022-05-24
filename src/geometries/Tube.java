@@ -6,15 +6,24 @@ import primitives.Vector;
 import primitives.Point;
 import static primitives.Util.isZero;
 
-public class Tube {
+import java.util.List;
+
+public class Tube extends Geometry {
 	protected Ray axisRay;
 	protected double radius;
 
+	/**
+	 * Tube constructor
+	 * 
+	 * @param ray ray
+	 * @param r1  radius
+	 */
 	public Tube(Ray ray, double r1) {
 		axisRay = ray;
 		radius = r1;
 	}
 
+	@Override
 	public Vector getNormal(Point point) {
 		// dot product between axisRay direction and direction to the point,
 		// resulting in distance to projection point from origin of axis ray
@@ -26,5 +35,10 @@ public class Tube {
 		// find where the point ray projects onto the axis ray
 		Point closest = axisRay.p0.add(axisRay.dir.scale(scalar));
 		return point.subtract(closest).normalize();
+	}
+
+	@Override
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		return null;
 	}
 }

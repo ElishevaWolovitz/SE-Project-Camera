@@ -7,9 +7,10 @@ import primitives.Point;
 import primitives.Ray;
 
 /**
- * Interface for intersectable objects
+ * Abstract class for intersectable objects
  * 
- * @author Elana Weiss
+ * @author elana
+ * @author elish
  */
 public abstract class Intersectable {
 

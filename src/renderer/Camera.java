@@ -17,9 +17,9 @@ public class Camera {
     private Vector vRight;
     private double width; // width of the view plane in pixels
     private double height; // height of the view plane in pixels
-    private double distance;  // distance from the camera to the view plane
-    private ImageWriter imWr; 
-    private RayTracerBase rtb; 
+    private double distance; // distance from the camera to the view plane
+    private ImageWriter imWr;
+    private RayTracerBase rtb;
 
     /**
      * Camera constructor
@@ -66,94 +66,100 @@ public class Camera {
         this.distance = distance;
         return this;
     }
-    
-    public Camera setVPSize(double width, double height)
-    {
-    	this.width = width; 
-    	this.height = height; 
-    	return this; 
+
+    public Camera setVPSize(double width, double height) {
+        this.width = width;
+        this.height = height;
+        return this;
     }
+
     /**
-     * set ray tracer base 
+     * set ray tracer base
+     * 
      * @param r
-     * @return camera 
+     * @return camera
      */
-    public Camera setRayTracer(RayTracerBase r)
-    {
-    	rtb = r; 
-    	return this; 
+    public Camera setRayTracer(RayTracerBase r) {
+        rtb = r;
+        return this;
     }
+
     /**
-     * set image writer 
+     * set image writer
+     * 
      * @param iw
      * @return camera
      */
-    public Camera setImageWriter(ImageWriter iw)
-    {
-    	imWr = iw; 
-    	return this; 
+    public Camera setImageWriter(ImageWriter iw) {
+        imWr = iw;
+        return this;
     }
+
     /**
-     * set height 
+     * set height
+     * 
      * @param d
      * @return camera
      */
-    public Camera setHeight(double d)
-    {
-    	height = d; 
-    	return this; 
+    public Camera setHeight(double d) {
+        height = d;
+        return this;
     }
+
     /**
-     * set width 
+     * set width
+     * 
      * @param d
-     * @return camera 
+     * @return camera
      */
-    public Camera setWidth(double d)
-    {
-    	width = d; 
-    	return this; 
+    public Camera setWidth(double d) {
+        width = d;
+        return this;
     }
+
     /**
      * set vRight
+     * 
      * @param v
      * @return camera
      */
-    public Camera setvRight(Vector v)
-    {
-    	vRight = v; 
-    	return this; 
+    public Camera setvRight(Vector v) {
+        vRight = v;
+        return this;
     }
+
     /**
      * set vTo
+     * 
      * @param v
      * @return camrea
      */
-    public Camera setvTo(Vector v)
-    {
-    	vTo = v; 
-    	return this; 
+    public Camera setvTo(Vector v) {
+        vTo = v;
+        return this;
     }
+
     /**
      * set vUp
+     * 
      * @param v
      * @return camera
      */
-    public Camera setvUp(Vector v)
-    {
-    	vUp = v; 
-    	return this; 
+    public Camera setvUp(Vector v) {
+        vUp = v;
+        return this;
     }
+
     /**
      * set p0
+     * 
      * @param p
      * @return camera
      */
-    public Camera setp0(Point p)
-    {
-    	p0 = p; 
-    	return this; 
+    public Camera setp0(Point p) {
+        p0 = p;
+        return this;
     }
-    
 
     /**
      * Constructs a ray through a pixel from the camera
@@ -169,8 +175,8 @@ public class Camera {
         Point pc = p0.add(vTo.scale(distance)); // center point of the view plane
         double pixelWidth = width / nX; // width of a pixel
         double pixelHeight = height / nY; // height of a pixel
-        double pcX = (nX-1) / 2.0; // center pixel value in x direction
-        double pcY = (nY-1)/ 2.0; // center pixel value in y direction
+        double pcX = (nX - 1) / 2.0; // center pixel value in x direction
+        double pcY = (nY - 1) / 2.0; // center pixel value in y direction
         double rightDistance = (j - pcX) * pixelWidth; // x offset of j from the center pixel
         double upDistance = -1 * (i - pcY) * pixelHeight; // y offset of i from the center pixel
 
@@ -194,57 +200,50 @@ public class Camera {
 
     /**
      * checks if any of the fields are null
+     * 
      * @throws MissingResourceException
      */
-    public Camera renderImage() throws MissingResourceException 
-    {
-    	 try {
-    		 if(p0 == null || vUp == null || vRight == null || width == 0 || height == 0 || distance == 0 || imWr == null || rtb == null)
-    			 throw new MissingResourceException(null, null, null);
-    		  } catch (MissingResourceException e) {
-    		    System.out.println("null field"); 
-    		    
-    		  }
-    	 Ray r;
-    	 Color c; 
-    	 for( int i = 0; i < imWr.getNy(); i++)
-    	 {
-    		 for (int j = 0; j < imWr.getNx(); j++)
-    		 {
-    			r = constructRayThroughPixel(imWr.getNx(), imWr.getNy(), j, i);
-    			c = rtb.traceRay(r); 
-    			imWr.writePixel(j, i, c);
-    		 }
-    	 }
-    	 
-    	 return this;
+    public Camera renderImage() throws MissingResourceException {
+        try {
+            if (p0 == null || vUp == null || vRight == null || width == 0 || height == 0 || distance == 0
+                    || imWr == null || rtb == null)
+                throw new MissingResourceException(null, null, null);
+        } catch (MissingResourceException e) {
+            System.out.println("null field");
+
+        }
+        Ray r;
+        Color c;
+        for (int i = 0; i < imWr.getNy(); i++) {
+            for (int j = 0; j < imWr.getNx(); j++) {
+                r = constructRayThroughPixel(imWr.getNx(), imWr.getNy(), j, i);
+                c = rtb.traceRay(r);
+                imWr.writePixel(j, i, c);
+            }
+        }
+
+        return this;
     }
-    
-    public void printGrid(int interval, Color color)
-    { 
-    	if(imWr == null)
-    		throw new MissingResourceException(null, null, null); 
-    	
-         // for each pixel, write the color
-         for (int col = 0; col < imWr.getNy();col++ ) 
-         {
-             for (int row = 0; row < imWr.getNx(); row++) 
-             {
-            	 if (col % interval == 0 || row % interval == 0) {
-        			imWr.writePixel(col, row, color);
-                 }
-             }
-         }
-         imWr.writeToImage();
+
+    public void printGrid(int interval, Color color) {
+        if (imWr == null)
+            throw new MissingResourceException(null, null, null);
+
+        // for each pixel, write the color
+        for (int row = 0; row < imWr.getNy(); row++) {
+            for (int col = 0; col < imWr.getNx(); col++) {
+                if (row % interval == 0 || col % interval == 0) {
+                    imWr.writePixel(col, row, color);
+                }
+            }
+        }
+        imWr.writeToImage();
     }
-    
-    public void writeToImage()
-    {
-    	if(imWr == null)
-    		throw new MissingResourceException(null, null, null);
-    	imWr.writeToImage();
+
+    public void writeToImage() {
+        if (imWr == null)
+            throw new MissingResourceException(null, null, null);
+        imWr.writeToImage();
     }
-    
-    
+
 }
-    

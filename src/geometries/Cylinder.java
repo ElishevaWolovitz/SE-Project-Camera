@@ -1,22 +1,33 @@
 package geometries;
 
 import primitives.Vector;
+import primitives.Point;
 import primitives.Ray;
 
+/**
+ * Class representing a Cylinder
+ * 
+ * @author elana
+ * @author elish
+ */
 public class Cylinder extends Tube {
 
 	protected double height;
 
-	public Vector getNormal() {
-		return null;
+	/**
+	 * Constructor
+	 * 
+	 * @param rad radius
+	 * @param ray ray
+	 * @param h   height
+	 */
+	public Cylinder(double rad, Ray ray, double h) {
+		super(ray, rad);
+		height = h;
 	}
 
-	/**
-	 * @brief sets values to fields in Cylinder
-	 * @param d1
-	 */
-	public Cylinder(double rad, Ray ray, double d1) {
-		super(ray, rad);
-		height = d1;
+	@Override
+	public Vector getNormal(Point point) {
+		return null;
 	}
 }

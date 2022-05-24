@@ -8,19 +8,28 @@ import primitives.Vector;
 
 import static primitives.Util.alignZero;
 
+/**
+ * Class representing a Plane
+ * 
+ * @author elana
+ * @author elish
+ */
 public class Plane extends Geometry {
 	protected Point q0;
 	protected Vector normal;
-
-	public Vector getNormal() {
-		return this.normal;
-	}
 
 	@Override
 	public Vector getNormal(Point point) {
 		return this.normal;
 	}
 
+	/**
+	 * Constructor that takes 3 points
+	 * 
+	 * @param p1 point 1
+	 * @param p2 point 2
+	 * @param p3 point 3
+	 */
 	public Plane(Point p1, Point p2, Point p3) {
 		if (p1.equals(p2) || p2.equals(p3) || p1.equals(p3)) {
 			throw new IllegalArgumentException("No two point can be equal");
@@ -33,6 +42,12 @@ public class Plane extends Geometry {
 		this.normal = p2.subtract(p1).crossProduct(p3.subtract(p1)).normalize();
 	}
 
+	/**
+	 * Constructor that takes a point and a normal
+	 * 
+	 * @param p1 point
+	 * @param v1 normal vector
+	 */
 	public Plane(Point p1, Vector v1) {
 		v1.normalize();
 		this.normal = v1;
@@ -62,5 +77,14 @@ public class Plane extends Geometry {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Getter for the plane's normal
+	 * 
+	 * @return the plane's normal
+	 */
+	public Vector getNormal() {
+		return this.normal;
 	}
 }
