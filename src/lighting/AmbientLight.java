@@ -19,8 +19,21 @@ public class AmbientLight extends Light {
 
     /**
      * Ambient Light constructor
+     * 
+     * @param color the Color
+     * @param ka the Double3
      */
     public AmbientLight(Color color, Double3 ka) {
+        super(color.scale(ka));
+    }
+    
+    /**
+     * Ambient Light constructor
+     * 
+     * @param color the Color
+     * @param ka the double
+     */
+    public AmbientLight(Color color, double ka) {
         super(color.scale(ka));
     }
 }
