@@ -2,6 +2,12 @@ package lighting;
 
 import primitives.*;
 
+/**
+ * Class representing a spot light source
+ * 
+ * @author elana
+ * @author elish
+ */
 public class SpotLight extends PointLight {
 	private Vector direction;
 	private double narrowBeam = 1;
@@ -33,17 +39,23 @@ public class SpotLight extends PointLight {
 		Vector l = getL(p);
 		double projection = direction.dotProduct(l);
 		double factor = Math.max(0, projection);
-		//how much should narrow the beam by
-		//change how much spotlight effect it has based on some power
-		if (narrowBeam != 1)
-		{
-			factor=Math.pow(factor, narrowBeam);
+		// how much should narrow the beam by
+		// change how much spotlight effect it has based on some power
+		if (narrowBeam != 1) {
+			factor = Math.pow(factor, narrowBeam);
 		}
 		return pointLightIntensity.scale(factor);
 	}
 
+	/**
+	 * Set the narrow beam factor
+	 * 
+	 * @param nb
+	 *
+	 * @return the intensity of the light.
+	 */
 	public PointLight setNarrowBeam(int nb) {
-		narrowBeam=nb;
+		narrowBeam = nb;
 		return this;
 	}
 }

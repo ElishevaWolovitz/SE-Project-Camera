@@ -1,8 +1,16 @@
 package primitives;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import geometries.Intersectable.GeoPoint;
 
+/**
+ * Class representing a ray
+ * 
+ * @author elana
+ * @author elish
+ */
 public class Ray {
 
 	public Point p0;
@@ -40,7 +48,8 @@ public class Ray {
 	 */
 	public Point findClosestPoint(List<Point> points) {
 		return points == null || points.isEmpty() ? null
-				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+				: findClosestGeoPoint(
+						points.stream().map(p -> new GeoPoint(null, p)).collect(Collectors.toList())).point;
 	}
 
 	/**

@@ -6,6 +6,12 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+/**
+ * Class representing a Triangle
+ * 
+ * @author elana
+ * @author elish
+ */
 public class Triangle extends Polygon {
 
 	/**

@@ -1,13 +1,14 @@
 package primitives;
 
 /**
+ * Class representing a point in 3D space
  * 
- * @author elisheva wolovitz
- *         this class creates an object that represent a 3d point
+ * @author elana
+ * @author elish
  */
-
 public class Point {
-	public final Double3 xyz;
+	public Double3 xyz;
+	
 	/**
 	 * Zero point (0,0,0)
 	 */

@@ -2,6 +2,12 @@ package lighting;
 
 import primitives.*;
 
+/**
+ * Class representing a directional light source
+ * 
+ * @author elana
+ * @author elish
+ */
 public class DirectionalLight extends Light implements LightSource {
     private Vector direction;
 

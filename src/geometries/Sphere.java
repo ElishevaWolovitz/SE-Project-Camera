@@ -9,6 +9,12 @@ import primitives.Vector;
 import static primitives.Util.isZero;
 import static primitives.Util.alignZero;
 
+/**
+ * Class representing a Sphere
+ * 
+ * @author elana
+ * @author elish
+ */
 public class Sphere extends Geometry {
 	protected Point center;
 	protected double radius;

@@ -5,8 +5,12 @@ import java.util.List;
 
 import primitives.Ray;
 
-import static geometries.Intersectable.GeoPoint;
-
+/**
+ * Class representing a collection of Geometries
+ * 
+ * @author elana
+ * @author elish
+ */
 public class Geometries extends Intersectable {
 
     /**

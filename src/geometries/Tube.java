@@ -8,6 +8,12 @@ import static primitives.Util.isZero;
 
 import java.util.List;
 
+/**
+ * Class representing a Tube
+ * 
+ * @author elana
+ * @author elish
+ */
 public class Tube extends Geometry {
 	protected Ray axisRay;
 	protected double radius;

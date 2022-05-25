@@ -5,6 +5,9 @@ import primitives.Double3;
 
 /**
  * Ambient light
+ * 
+ * @author elana
+ * @author elish
  */
 public class AmbientLight extends Light {
     /**

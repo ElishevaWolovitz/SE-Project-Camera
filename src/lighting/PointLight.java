@@ -2,6 +2,12 @@ package lighting;
 
 import primitives.*;
 
+/**
+ * Class representing a point light source
+ * 
+ * @author elana
+ * @author elish
+ */
 public class PointLight extends Light implements LightSource {
 	private Point position;
 	double kC = 1;

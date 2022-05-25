@@ -1,5 +1,11 @@
 package primitives;
 
+/**
+ * Class representing the material of a geometry
+ * 
+ * @author elana
+ * @author elish
+ */
 public class Material {
 	public Double3 kD = Double3.ZERO;
 	public Double3 kS = Double3.ZERO;
@@ -8,8 +14,8 @@ public class Material {
 	/**
 	 * setter for kD that recieves Double3
 	 * 
-	 * @param d3 - Double3
-	 * @return object
+	 * @param d3 - Double3 to set kD to
+	 * @return the material
 	 */
 	public Material setKD(Double3 d3) {
 		kD = d3;
@@ -19,8 +25,8 @@ public class Material {
 	/**
 	 * setter for kS that recieves Double3
 	 * 
-	 * @param d3 - Double3
-	 * @return object
+	 * @param d3 - Double3 to set kS to
+	 * @return the material
 	 */
 	public Material setKS(Double3 d3) {
 		kS = d3;
@@ -30,8 +36,8 @@ public class Material {
 	/**
 	 * setter for kD that recieves a double
 	 * 
-	 * @param d - double
-	 * @return object
+	 * @param d - double to set kD to
+	 * @return the material
 	 */
 	public Material setKD(double d) {
 		kD = new Double3(d);
@@ -41,8 +47,8 @@ public class Material {
 	/**
 	 * setter for ks that recieves a double
 	 * 
-	 * @param d - double
-	 * @return object
+	 * @param d - double to set kS to
+	 * @return the material
 	 */
 	public Material setKS(double d) {
 		kS = new Double3(d);
@@ -52,8 +58,8 @@ public class Material {
 	/**
 	 * setter for nShininess
 	 * 
-	 * @param x - int
-	 * @return object
+	 * @param x - int to set nShininess to
+	 * @return the material
 	 */
 	public Material setNShininess(int x) {
 		nShininess = x;

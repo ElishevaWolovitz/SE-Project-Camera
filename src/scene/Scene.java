@@ -10,6 +10,8 @@ import primitives.Color;
 
 /**
  * Class to represent a scene
+ * 
+ * @author elish
  * @author elana
  */
 public class Scene {
@@ -18,9 +20,8 @@ public class Scene {
     public Color background = Color.BLACK;
     public AmbientLight ambientLight;
     public Geometries geometries;
-    public List<LightSource> lights = new LinkedList<LightSource>();
+    public List<LightSource> lights = new LinkedList<>();
 
-    
     /**
      * Constructor
      */
@@ -29,14 +30,13 @@ public class Scene {
         ambientLight = new AmbientLight();
         geometries = new Geometries();
     }
-    
+
     /**
      * setter for lights list
      */
-    public Scene setLights(List<LightSource > l)
-    {
-    	lights = l; 
-    	return this; 
+    public Scene setLights(List<LightSource> l) {
+        lights = l;
+        return this;
     }
 
     /**

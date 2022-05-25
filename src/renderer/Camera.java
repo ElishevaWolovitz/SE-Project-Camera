@@ -18,8 +18,8 @@ public class Camera {
     private double width; // width of the view plane in pixels
     private double height; // height of the view plane in pixels
     private double distance; // distance from the camera to the view plane
-    private ImageWriter imWr;
-    private RayTracerBase rtb;
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracer;
 
     /**
      * Camera constructor
@@ -80,7 +80,7 @@ public class Camera {
      * @return camera
      */
     public Camera setRayTracer(RayTracerBase r) {
-        rtb = r;
+        rayTracer = r;
         return this;
     }
 
@@ -91,7 +91,7 @@ public class Camera {
      * @return camera
      */
     public Camera setImageWriter(ImageWriter iw) {
-        imWr = iw;
+        imageWriter = iw;
         return this;
     }
 
@@ -195,7 +195,7 @@ public class Camera {
         }
 
         // construct a ray from the camera origin in the direction of the pixel at (j,i)
-        return new Ray(p0, pij.subtract(p0).normalize());
+        return new Ray(p0, pij.subtract(p0));
     }
 
     /**
@@ -204,46 +204,43 @@ public class Camera {
      * @throws MissingResourceException
      */
     public Camera renderImage() throws MissingResourceException {
-        try {
-            if (p0 == null || vUp == null || vRight == null || width == 0 || height == 0 || distance == 0
-                    || imWr == null || rtb == null)
-                throw new MissingResourceException(null, null, null);
-        } catch (MissingResourceException e) {
-            System.out.println("null field");
-
+        if (p0 == null || vUp == null || vRight == null || width == 0 || height == 0 || distance == 0
+                || imageWriter == null || rayTracer == null) {
+            throw new MissingResourceException(null, null, null);
         }
-        Ray r;
-        Color c;
-        for (int i = 0; i < imWr.getNy(); i++) {
-            for (int j = 0; j < imWr.getNx(); j++) {
-                r = constructRayThroughPixel(imWr.getNx(), imWr.getNy(), j, i);
-                c = rtb.traceRay(r);
-                imWr.writePixel(j, i, c);
+        Ray ray;
+        Color color;
+        int numRows = imageWriter.getNy();
+        int numColumns = imageWriter.getNx();
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numColumns; col++) {
+                ray = constructRayThroughPixel(numColumns, numRows, col, row);
+                color = rayTracer.traceRay(ray);
+                imageWriter.writePixel(col, row, color);
             }
         }
-
         return this;
     }
 
     public void printGrid(int interval, Color color) {
-        if (imWr == null)
+        if (imageWriter == null)
             throw new MissingResourceException(null, null, null);
 
         // for each pixel, write the color
-        for (int row = 0; row < imWr.getNy(); row++) {
-            for (int col = 0; col < imWr.getNx(); col++) {
+        for (int row = 0; row < imageWriter.getNy(); row++) {
+            for (int col = 0; col < imageWriter.getNx(); col++) {
                 if (row % interval == 0 || col % interval == 0) {
-                    imWr.writePixel(col, row, color);
+                    imageWriter.writePixel(col, row, color);
                 }
             }
         }
-        imWr.writeToImage();
+        imageWriter.writeToImage();
     }
 
     public void writeToImage() {
-        if (imWr == null)
+        if (imageWriter == null)
             throw new MissingResourceException(null, null, null);
-        imWr.writeToImage();
+        imageWriter.writeToImage();
     }
 
 }

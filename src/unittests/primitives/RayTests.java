@@ -27,7 +27,7 @@ class RayTests {
 	@Test
 	void testFindClosestPoint() {
 		// ============ Equivalence Partitions Tests ==============
-			//TC01: the closest point to the ray’s head is found somewhere in the middle of the list
+			//TC01: the closest point to the rayï¿½s head is found somewhere in the middle of the list
 		Point p, p1, p2, p3, result; 
 		Vector v; 
 		Ray r; 

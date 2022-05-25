@@ -4,7 +4,10 @@ import primitives.Color;
 import primitives.*;
 
 /**
- * Interface for light sources.
+ * Interface for light sources
+ * 
+ * @author elana
+ * @author elish
  */
 public interface LightSource {
     /**
