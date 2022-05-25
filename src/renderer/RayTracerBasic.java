@@ -10,6 +10,8 @@ import lighting.LightSource;
 import static primitives.Util.*;
 
 public class RayTracerBasic extends RayTracerBase {
+	
+	private static final double DELTA = 0.1;
 	/**
 	 * RayTracerBasic constructor
 	 * 
@@ -34,6 +36,32 @@ public class RayTracerBasic extends RayTracerBase {
 		}
 		GeoPoint p = ray.findClosestGeoPoint(lstGeoPoints);
 		return calcColor(p, ray);
+	}
+	/**
+	 * creates a list of any objects (if there are any) btw light and point 
+	 * (note not included in list are any points that are behind light) 
+	 * @param l		- a vector from the light to the object 
+	 * @param n 	- the normal 
+	 * @param gp 	- geoPoint of object 
+	 * @return 		- a boolean value - true if there is no object btw point and light and false if there is
+	 */
+	private boolean unshaded(Vector l, Vector n, GeoPoint gp)
+	{
+		Vector point2light = l.scale(-1); // to change direction of vector to be from point to light
+		Ray lightRay = new Ray(gp.point, point2light ); 
+		List<GeoPoint> intersects = scene.geometries.findGeoIntersections(lightRay); 
+		double dl = l.distance(gp.point); // distance from point to light
+		double dOO; // distance from Other Object to point
+		for (GeoPoint i: intersects)
+		{
+			dOO = l.distance(i.point); 
+			if (dOO > dl)
+			{
+				intersects.remove(i); 
+			}
+		}
+		return intersects.isEmpty(); 
+		
 	}
 
 	/**
