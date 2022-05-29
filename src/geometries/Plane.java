@@ -55,7 +55,7 @@ public class Plane extends Geometry {
 	}
 
 	@Override
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		// P0: Ray origin
 		// V: Ray direction
 		// Q0: Point on the plane
@@ -71,7 +71,8 @@ public class Plane extends Geometry {
 
 		// Only add the intersection point if it's in front of the ray,
 		// and the distance is not infinite (not parallel)
-		if (alignZero(t) > 0 && !Double.isInfinite(t)) {
+		// and max distance is greater than the distance from the ray origin to the plane
+		if (alignZero(t) > 0 && !Double.isInfinite(t) && alignZero(maxDistance - t) > 0) {
 			GeoPoint p = new GeoPoint(this, ray.getPoint(t));
 			return List.of(p);
 		}

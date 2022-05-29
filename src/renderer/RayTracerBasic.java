@@ -127,22 +127,11 @@ public class RayTracerBasic extends RayTracerBase {
 	 *         and false if there is
 	 */
 	private boolean unshaded(Vector l, Vector n, GeoPoint gp, LightSource lightSource) {
-		Vector point2light = l.scale(-1); // to change direction of vector to be from point to light
-		Ray lightRay = new Ray(gp.point, point2light);
-		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
-		if (intersections==null)
-		{
-			return true;
-		}
+		Vector directionToLight = l.scale(-1); // to change direction of vector to be from point to light
+		Ray rayPointToLight = new Ray(gp.point, directionToLight);
 		double lightDistance = lightSource.getDistance(gp.point);
-		for (GeoPoint otherPoint : intersections) {
-			double distance = otherPoint.point.distance(gp.point);
-			if (distance < lightDistance) {
-				// if there is an object between point and light, it is not unshaded
-				return false;
-			}
-		}
+		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(rayPointToLight, lightDistance);
 		// if there is no object between point and light, it is unshaded
-		return true;
+		return intersections == null;
 	}
 }

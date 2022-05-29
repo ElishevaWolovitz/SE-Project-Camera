@@ -26,8 +26,8 @@ public class Triangle extends Polygon {
 	}
 
 	@Override
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		List<GeoPoint> planeIntersections = this.plane.findGeoIntersectionsHelper(ray);
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
+		List<GeoPoint> planeIntersections = this.plane.findGeoIntersectionsHelper(ray, maxDistance);
 
 		// if ray does not intersect with the plane the triangle lies on
 		// it does not intersect with the triangle either

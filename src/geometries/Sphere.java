@@ -36,7 +36,7 @@ public class Sphere extends Geometry {
 	}
 
 	@Override
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		double tm, uLenSqrd, d, tn, t1, t2;
 		Point p1, p2;
 
@@ -74,14 +74,14 @@ public class Sphere extends Geometry {
 		List<GeoPoint> intersections = null;
 		t1 = tm + tn;
 		t2 = tm - tn;
-		// if t1 is in front of the ray
-		if (alignZero(t1) > 0) {
+		// if t1 is in front of the ray and max distance is greater than t1
+		if (alignZero(t1) > 0 && alignZero(maxDistance - t1) > 0) {
 			p1 = ray.getPoint(t1);
 			intersections = new LinkedList<>(List.of(new GeoPoint(this, p1)));
 		}
 
-		// if t2 is in front of the ray
-		if (alignZero(t2) > 0) {
+		// if t2 is in front of the ray and max distance is greater than t2
+		if (alignZero(t2) > 0 && alignZero(maxDistance - t2) > 0) {
 			p2 = ray.getPoint(t2);
 			if (intersections == null) {
 				intersections = List.of(new GeoPoint(this, p2));

@@ -70,7 +70,19 @@ public abstract class Intersectable {
      * @return List of intersection points with the geometries they intersect with
      */
     public List<Point> findIntersections(Ray ray) {
-        var geoList = findGeoIntersectionsHelper(ray);
+        return findIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * Method to find the closest intersection point of a ray with the geometry
+     * 
+     * @param ray         The ray to find the intersection point with
+     * @param maxDistance The maximum distance to find the intersection point
+     * 
+     * @return List of intersection points with the geometries they intersect with
+     */
+    public List<Point> findIntersections(Ray ray, double maxDistance) {
+        var geoList = findGeoIntersections(ray, maxDistance);
         return geoList == null ? null
                 : geoList.stream().map(gp -> gp.point).collect(Collectors.toList());
     }
@@ -83,7 +95,19 @@ public abstract class Intersectable {
      * @return List of geopoints that intersect with the ray
      */
     public List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * Finds the list of geopoints that intersect with the ray
+     * 
+     * @param ray         The ray to find the intersection points with
+     * @param maxDistance The maximum distance to find the intersection points with
+     * 
+     * @return List of geopoints that intersect with the ray
+     */
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
     }
 
     /**
@@ -93,5 +117,5 @@ public abstract class Intersectable {
      * 
      * @return List of geopoints that intersect with the ray
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
 }

@@ -39,6 +39,7 @@ public class PlaneTests {
 
 	/**
 	 * Test method for {@link geometries.Plane#findIntersections()}.
+	 * 
 	 * @author elana
 	 */
 	@Test
@@ -49,21 +50,21 @@ public class PlaneTests {
 		List<Point> actual;
 		// =================== BVA ==================
 		// Ray parallel, ray in the plane
-		ray = new Ray(new Point(0,3,0), new Vector(0,0,1));
+		ray = new Ray(new Point(0, 3, 0), new Vector(0, 0, 1));
 		actual = plane.findIntersections(ray);
 		assertEquals("Ray parallel, ray in the plane", null, actual);
-		
+
 		// Ray parallel, ray not in the plane
-		ray = new Ray(new Point(0,3,0), new Vector(0,0,1));
+		ray = new Ray(new Point(0, 3, 0), new Vector(0, 0, 1));
 		actual = plane.findIntersections(ray);
 		assertEquals("Ray parallel, ray not in the plane", null, actual);
-		
+
 		// Ray orthogonal, before plane
 		ray = new Ray(new Point(0, 0, -5), new Vector(0, 1, 0));
 		actual = plane.findIntersections(ray);
 		expected = List.of(new Point(0, 3, -5));
 		assertEquals("Ray orthogonal, after plane", expected, actual);
-		
+
 		// Ray orthogonal, after plane
 		ray = new Ray(new Point(0, 0, -5), new Vector(0, -1, 0));
 		actual = plane.findIntersections(ray);
@@ -88,12 +89,17 @@ public class PlaneTests {
 		// Ray intersects plane
 		ray = new Ray(new Point(0, 0, -5), new Vector(0, 1, 1));
 		actual = plane.findIntersections(ray);
-		expected = List.of(new Point(0,3,-2));
+		expected = List.of(new Point(0, 3, -2));
 		assertEquals("Ray not orthogonal or parallel, begins at the plane", expected, actual);
 
 		// Ray does not intersect plane
 		ray = new Ray(new Point(0, 0, -5), new Vector(0, -1, 1));
 		actual = plane.findIntersections(ray);
 		assertEquals("Ray does not intersect plane", null, actual);
+
+		// Test max distance
+		ray = new Ray(new Point(0, 0, -5), new Vector(0, 1, 1));
+		actual = plane.findIntersections(ray, 1);
+		assertEquals("Ray is intersecting not within max distance", null, actual);
 	}
 }

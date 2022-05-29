@@ -1,18 +1,18 @@
 package unittests.geometries;
 
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 //import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.Test;
 import primitives.*;
 import geometries.*;
 
 
 
 /**
- *  Test method for {@link geometries.Geometries#findIntersections()}.
+ * Test method for {@link geometries.Geometries#findIntersections()}.
  * @author elana
  *
  */
@@ -51,6 +51,11 @@ public class GeometriesTest {
         // some shapes but not all intersect
         List<Point> actual3 = geometries3.findIntersections(ray3);
         assertEquals("only one shape intersects", expected2, actual3);
+
+        // test max distance
+        List<Point> expected3 = List.of(new Point(0, -2, 2));
+        List<Point> actual4 = geometries3.findIntersections(ray3, 5);
+        assertEquals("only one shape intersects at max distance", expected3, actual4);
     }
 }
 
