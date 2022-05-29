@@ -63,14 +63,7 @@ public class Geometries extends Intersectable {
                 if (intersections == null) {
                     intersections = new LinkedList<>();
                 }
-                //dont add to list if transparency co-eff is 0
-                for(GeoPoint gp: tempIntersections)
-                {
-                	if(gp.geometry.getMaterial().kT == Double3.ZERO)
-                	{
-                		tempIntersections.remove(gp); 
-                	}
-                }
+                
                 // add the points to the list of intersection points
                 intersections.addAll(tempIntersections);
             }

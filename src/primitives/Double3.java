@@ -11,9 +11,9 @@ import static primitives.Util.*;
  * @author Dan Zilberstein
  */
 public class Double3 {
-	public final double d1;
-	public final double d2;
-	public final double d3;
+	final double d1;
+	final double d2;
+	final double d3;
 
 	/**
 	 * Zero triad (0,0,0)
@@ -55,9 +55,10 @@ public class Double3 {
 			return true;
 		if (obj == null)
 			return false;
-		if (obj instanceof Double3 other)
-			return isZero(d1 - other.d1) && isZero(d2 - other.d2) && isZero(d3 - other.d3);
-		return false;
+		if (!(obj instanceof Double3))
+			return false;
+		Double3 other = (Double3) obj;
+		return isZero(d1 - other.d1) && isZero(d2 - other.d2) && isZero(d3 - other.d3);
 	}
 
 	@Override
@@ -124,25 +125,15 @@ public class Double3 {
 	public Double3 product(Double3 rhs) {
 		return new Double3(d1 * rhs.d1, d2 * rhs.d2, d3 * rhs.d3);
 	}
-	
+
 	/**
 	 * Checks whether all the numbers are lower than a test number
+	 * 
 	 * @param k the test number
 	 * @return true if all the numbers are less than k, false otherwise
 	 */
-
 	public boolean lowerThan(double k) {
 		return d1 < k && d2 < k && d3 < k;
-	}
-	
-	/**
-	 * Checks whether the object is greater then the test
-	 * @param k the test number
-	 * @return true if all the numbers are greater than k, false otherwise
-	 */
-
-	public boolean greaterThan(Double3 k) {
-		return d1 > k.d1 && d2 > k.d2 && d3 > k.d3;
 	}
 
 }

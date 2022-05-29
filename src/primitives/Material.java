@@ -8,19 +8,19 @@ package primitives;
  */
 public class Material {
 	/**
-	 * class material with attributes: 
-	 * kD, kS, kT, kR, (which are attentuation factors 
-	 * for the geometries material of diffuse, specular, 
+	 * class material with attributes:
+	 * kD, kS, kT, kR, (which are attentuation factors
+	 * for the geometries material of diffuse, specular,
 	 * transparency and refelction)
 	 * and nShininess all initialized to 0
-	 * and methods: 
-	 * setters for each attribute 
+	 * and methods:
+	 * setters for each attribute
 	 */
 	public Double3 kD = Double3.ZERO;
 	public Double3 kS = Double3.ZERO;
 	public int nShininess = 0;
 	public Double3 kT = Double3.ZERO;
-	public Double3 kR = Double3.ZERO; 
+	public Double3 kR = Double3.ZERO;
 
 	/**
 	 * setter for kD that recieves Double3
@@ -76,45 +76,48 @@ public class Material {
 		nShininess = x;
 		return this;
 	}
+
 	/**
 	 * setter for kT with parameter of type Double3
-	 * @param d3
-	 * @return the object 
+	 * 
+	 * @param d3 - Double3 to set kT to
+	 * @return the object
 	 */
-	public Material setKT(Double3 d3)
-	{
-		kT = d3; 
-		return this; 
+	public Material setKT(Double3 d3) {
+		kT = d3;
+		return this;
 	}
+
 	/**
 	 * setter for kR with parameter of type Double3
-	 * @param d3
-	 * @return the object 
+	 * 
+	 * @param d3 - Double3 to set kR to
+	 * @return the object
 	 */
-	public Material setKR(Double3 d3)
-	{
-		kR = d3; 
-		return this; 
+	public Material setKR(Double3 d3) {
+		kR = d3;
+		return this;
 	}
-	
+
 	/**
 	 * setter for kT with parameter of type double
-	 * @param d
-	 * @return the object 
+	 * 
+	 * @param d - double to set kT to
+	 * @return the object
 	 */
-	public Material setKT(double d)
-	{
-		kT = new Double3(d); 
-		return this; 
+	public Material setKT(double d) {
+		kT = new Double3(d);
+		return this;
 	}
+
 	/**
 	 * setter for kR with parameter of type double
-	 * @param d
-	 * @return the object 
+	 * 
+	 * @param d - double to set kR to
+	 * @return the object
 	 */
-	public Material setKR(double d)
-	{
-		kR = new Double3(d); 
-		return this; 
+	public Material setKR(double d) {
+		kR = new Double3(d);
+		return this;
 	}
 }

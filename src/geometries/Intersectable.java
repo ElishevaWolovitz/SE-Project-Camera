@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Vector;
 
 /**
  * Abstract class for intersectable objects
@@ -59,6 +60,15 @@ public abstract class Intersectable {
         @Override
         public String toString() {
             return point.toString() + ", " + geometry.toString();
+        }
+
+        /**
+         * Helper method to get the normal of the geometry at the point of intersection
+         * 
+         * @return normal
+         */
+        public Vector getNormal() {
+            return geometry.getNormal(point);
         }
     }
 

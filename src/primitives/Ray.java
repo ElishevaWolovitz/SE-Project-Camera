@@ -15,36 +15,46 @@ public class Ray {
 
 	public Point p0;
 	public Vector dir;
+
 	/**
 	 * Amount to move the ray's head away from the geometry when making shadow rays
 	 */
 	private static final double DELTA = 0.1;
+
 	/**
 	 * constructor for ray
+	 * 
 	 * @param p1
 	 * @param v1
 	 */
 	public Ray(Point p1, Vector v1) {
-		p0 = p1;
 		dir = v1.normalize();
+		p0 = p1;
 	}
+
 	/**
-	 * constructor for ray: 
-	 * initializes fields 
+	 * constructor for ray:
+	 * initializes fields
 	 * and moves starting point delta above given starting point
-	 * @param p
-	 * @param v
-	 * @param n
+	 * 
+	 * @param point     - head of ray
+	 * @param direction - direction of ray
+	 * @param normal    - normal direction of geometry for adding delta
 	 */
-	public Ray(Point p, Vector v, Vector n)
-	{
-		Vector deltaV = n.scale(DELTA);
-		p0 = p.add(deltaV); 
-		dir = v.normalize(); 
+	public Ray(Point point, Vector direction, Vector normal) {
+		dir = direction.normalize();
+		// If projection of normal onto the ray is negative, we don't want it to
+		// intersect the light, so we move the ray's head delta into the geometry.
+		// If projection of normal onto the ray is positive, we want it to intersect the
+		// light, so we move the ray's head delta out of the geometry.
+		Vector deltaV = normal.dotProduct(dir) >= 0 ? normal.scale(DELTA) : normal.scale(-DELTA);
+		p0 = point.add(deltaV);
 	}
+
 	/**
 	 * methos that returns true if object and test object are equal
-	 * @param obj 	- of type Object
+	 * 
+	 * @param obj - of type Object
 	 * @return a boolean value
 	 */
 	public boolean equals(Object obj) {
