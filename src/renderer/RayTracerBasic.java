@@ -55,7 +55,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k)
 	{
-		Color color = scene.ambientLight.getIntensity().add(calcLocalEffects(gp, ray));
+		Color color = scene.ambientLight.getIntensity().add(calcLocalEffects(gp, ray, k));
 		if(level == 1)
 			return color; 
 		else 
@@ -101,7 +101,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 *@param ray 			- of type Ray 
 	 *@return a color - based on effect of local factors
 	 */
-	private Color calcLocalEffects(GeoPoint intersection, Ray ray) 
+	private Color calcLocalEffects(GeoPoint intersection, Ray ray, Double3 k) 
 	{
 		// viewing direction
 		Vector v = ray.dir;
@@ -121,10 +121,15 @@ public class RayTracerBasic extends RayTracerBase {
 		for (LightSource lightSource : scene.lights) {
 			Vector l = lightSource.getL(intersection.point);
 			double nl = alignZero(n.dotProduct(l));
-			if (unshaded(l, n, intersection, lightSource) && nl * nv > 0) { // sign(nl) == sign(nv)
-				Color lightIntensity = lightSource.getIntensity(intersection.point);
-				color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+			if(nl*nv > 0) // sign(nl) == sign(nv)
+			{
+				Double3 ktr = transparency(intersection,lightSource, l, n); 
+				if (ktr.product(k).greaterThan(MIN_CALC_COLOR_K))
+				{
+					Color lightIntensity = lightSource.getIntensity(intersection.point).scale(ktr);
+					color = color.add(calcDiffusive(kd, l, n, lightIntensity),
 						calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+				}
 			}
 		}
 		return color;
@@ -173,17 +178,27 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param l  - a vector from the light to the object
 	 * @param n  - the normal
 	 * @param gp - geoPoint of object
-	 * @return - a boolean value - true if there is no object between point and light
-	 *         and false if there is
+	 * @return a double which is the effect of how much the geometry is shaded, 
+	 * if there is an object between the light source and the current geometry.  
+	 * 
 	 */
-	private boolean unshaded(Vector l, Vector n, GeoPoint gp, LightSource lightSource) {
+	private Double3 transparency(GeoPoint geoPoint, LightSource ls, Vector l, Vector n)
+	{
 		Vector directionToLight = l.scale(-1); // to change direction of vector to be from point to light
-		Ray rayPointToLight = new Ray(gp.point, directionToLight, n);
-		double lightDistance = lightSource.getDistance(gp.point);
+		Ray rayPointToLight = new Ray(geoPoint.point, directionToLight, n);
+		double lightDistance = ls.getDistance(geoPoint.point);
 		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(rayPointToLight, lightDistance);
-		
+		Double3 ktr = Double3.ONE;
 		// if there is no object between point and light, it is unshaded
-		return intersections == null;
+		if(intersections == null)
+			return Double3.ZERO;   
+		for(GeoPoint gp:intersections)
+		{
+			//if (distance of point to intersection is greater the distance from point to light)
+			//	do nothing/remove from intersection list ????????????????
+			ktr = ktr.product(gp.geometry.getMaterial().kT); 
+		}
+		return ktr; 
 	}
 	
 	/**
