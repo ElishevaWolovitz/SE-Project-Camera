@@ -15,6 +15,8 @@ public class RayTracerBasic extends RayTracerBase {
 	 * Amount to move the ray's head away from the geometry when making shadow rays
 	 */
 	private static final double DELTA = 0.1;
+	private static final int MAX_CALC_COLOR_LEVEL = 10;
+	private static final double MIN_CALC_COLOR_K = 0.001;
 
 	/**
 	 * RayTracerBasic constructor
@@ -133,5 +135,40 @@ public class RayTracerBasic extends RayTracerBase {
 		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(rayPointToLight, lightDistance);
 		// if there is no object between point and light, it is unshaded
 		return intersections == null;
+	}
+	
+	/**
+	 * method to construct a refracted ray of another ray to a point
+	 * @param p 	- Point of the object 
+	 * @param inRay	- ray that hits points and is refracted 
+	 * @return refractedRay - the array that is refracted from the original inRay
+	 */
+	private Ray constructRefractedRay(Point p, Ray inRay)
+	{
+		Ray refractedRay;  
+		//move original point along normal so be new starting poin for reftactedRay
+		Point newP = inRay.p0.add(inRay.dir.scale(DELTA)); 
+		refractedRay = new Ray(newP, inRay.dir); 
+		return refractedRay; 
+	}
+	
+	/**
+	 * method to construct a reflexive ray of another ray to a point
+	 * @param p 	- Point of the object 
+	 * @param inRay	- ray that hits points and is reflected 
+	 * @return reflectedRay - the array that is reflected from the original inRay
+	 */
+	private Ray constructReflectedRay(Vector n,Point p, Ray inRay)
+	{
+		Ray reflectedRay; 
+		//move original point along normal so be new starting poin for reftactedRay
+		Point newP = inRay.p0.add(v.scale(DELTA)); 
+		//calculate direction of reflectedRay
+		double d1 = inRay.dir.dotProduct(n); 
+		Vector v1 = n.scale(d1*2); 
+		Vector newV = inRay.dir.subtract(v1); 
+		//put together to get reflectedRay
+		reflectedRay = new Ray(newP, newV); 
+		return reflectedRay; 
 	}
 }
