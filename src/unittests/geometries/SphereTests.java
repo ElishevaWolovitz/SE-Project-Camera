@@ -69,6 +69,8 @@ public class SphereTests {
 		assertNull(sphere.findIntersections(r1), "TC04: Ray starts after sphere, so no intersections");
 
 		// Test max distance (max distance between 2 points)
+		p1 = new Point(0.0651530771650466, 0.355051025721682, 0);
+		p2 = new Point(1.53484692283495, 0.844948974278318, 0);
 		result = sphere.findIntersections(new Ray(new Point(-1, 0, 0),
 				new Vector(3, 1, 0)), 1.5);
 		assertEquals(List.of(p1), result, "Ray should intersect one point before max distance");
@@ -81,6 +83,8 @@ public class SphereTests {
 		// Test max distance (max distance after sphere)
 		result = sphere.findIntersections(new Ray(new Point(-1, 0, 0),
 				new Vector(3, 1, 0)), 3);
+		if (result.get(0).xyz.d1 > result.get(1).xyz.d1)
+			result = List.of(result.get(1), result.get(0));
 		assertEquals(List.of(p1, p2), result, "Ray should intersect both points before max distance");
 
 		// =============== Boundary Values Tests ==================
