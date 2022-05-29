@@ -9,7 +9,10 @@ package primitives;
 public class Material {
 	/**
 	 * class material with attributes: 
-	 * kD, kD, kT, kR, nShininess all initialized to 0
+	 * kD, kS, kT, kR, (which are attentuation factors 
+	 * for the geometries material of diffuse, specular, 
+	 * transparency and refelction)
+	 * and nShininess all initialized to 0
 	 * and methods: 
 	 * setters for each attribute 
 	 */

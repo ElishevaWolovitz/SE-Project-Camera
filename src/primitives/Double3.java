@@ -134,5 +134,15 @@ public class Double3 {
 	public boolean lowerThan(double k) {
 		return d1 < k && d2 < k && d3 < k;
 	}
+	
+	/**
+	 * Checks whether the object is greater then the test
+	 * @param k the test number
+	 * @return true if all the numbers are greater than k, false otherwise
+	 */
+
+	public boolean greaterThan(Double3 k) {
+		return d1 > k.d1 && d2 > k.d2 && d3 > k.d3;
+	}
 
 }

@@ -3,6 +3,7 @@ package geometries;
 import java.util.LinkedList;
 import java.util.List;
 
+import primitives.Double3;
 import primitives.Ray;
 
 /**
@@ -37,6 +38,14 @@ public class Geometries extends Intersectable {
         geometryList.addAll(List.of(geometries));
     }
 
+    /**
+     * takes a ray from a point and finds any
+     * geometries that intersect with the ray 
+     * that are not further then the max distance away
+     * @param ray 
+     * @param maxdistance 
+     * @return a list of geoPoints that intersect with ray passed
+     */
     @Override
     protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (geometryList.isEmpty()) {
@@ -53,6 +62,14 @@ public class Geometries extends Intersectable {
                 // if the list of intersection points is null, initialize it
                 if (intersections == null) {
                     intersections = new LinkedList<>();
+                }
+                //dont add to list if transparency co-eff is 0
+                for(GeoPoint gp: tempIntersections)
+                {
+                	if(gp.geometry.getMaterial().kT == Double3.ZERO)
+                	{
+                		tempIntersections.remove(gp); 
+                	}
                 }
                 // add the points to the list of intersection points
                 intersections.addAll(tempIntersections);
