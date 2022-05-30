@@ -79,7 +79,7 @@ public class RayTracerBasic extends RayTracerBase {
 		}
 		// recursive case (calcColor is called in calcGlobalEffect)
 		// start with emission color and add lights (diffuse, specular, shadows)
-		Color result = gp.geometry.getEmission().add(calcLocalEffects(gp, ray,k));
+		Color result = gp.geometry.getEmission().add(calcLocalEffects(gp, ray, k));
 		// normal vector of the geometry at the intersection point
 		Vector normal = gp.getNormal();
 		// calculate reflection
@@ -123,8 +123,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param ray          - of type Ray
 	 * @return a color - based on effect of local factors
 	 */
-	private Color calcLocalEffects(GeoPoint intersection, Ray ray, Double3 k) 
-	{
+	private Color calcLocalEffects(GeoPoint intersection, Ray ray, Double3 k) {
 		// viewing direction
 		Vector v = ray.dir;
 		// normal vector of the geometry at the intersection point
@@ -143,14 +142,13 @@ public class RayTracerBasic extends RayTracerBase {
 		for (LightSource lightSource : scene.lights) {
 			Vector l = lightSource.getL(intersection.point);
 			double nl = alignZero(n.dotProduct(l));
-			if(nl*nv > 0) // sign(nl) == sign(nv)
+			if (nl * nv > 0) // sign(nl) == sign(nv)
 			{
-				Double3 ktr = transparency(intersection,lightSource, l, n); 
-				if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K))
-				{
+				Double3 ktr = transparency(intersection, lightSource, l, n);
+				if (!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
 					Color lightIntensity = lightSource.getIntensity(intersection.point).scale(ktr);
 					color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-						calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+							calcSpecular(ks, l, n, v, nShininess, lightIntensity));
 				}
 			}
 		}
@@ -196,38 +194,36 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	/**
-	 *calculate the transparency of the shadow of a light source onto an object
+	 * calculate the transparency of the shadow of a light source onto an object
 	 * 
-	 *  @param geoPoint - geoPoint of object
-	 *  @param ls - the light source
-	 * @param l  - a vector from the light to the object
-	 * @param n  - the normal
-	 * @return a Double3 which is the effect of how much the geometry is shaded, 
-	 * if there is an object between the light source and the current geometry.  
+	 * @param geoPoint - geoPoint of object
+	 * @param ls       - the light source
+	 * @param l        - a vector from the light to the object
+	 * @param n        - the normal
+	 * @return a Double3 which is the effect of how much the geometry is shaded,
+	 *         if there is an object between the light source and the current
+	 *         geometry.
 	 * 
 	 */
-	private Double3 transparency(GeoPoint geoPoint, LightSource ls, Vector l, Vector n)
-	{
+	private Double3 transparency(GeoPoint geoPoint, LightSource ls, Vector l, Vector n) {
 		Vector directionToLight = l.scale(-1); // to change direction of vector to be from point to light
 		Ray rayPointToLight = new Ray(geoPoint.point, directionToLight, n);
 		double lightDistance = ls.getDistance(geoPoint.point);
 		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(rayPointToLight, lightDistance);
 		Double3 ktr = Double3.ONE;
 		// if there is no object between point and light, it is fully transparent
-		if(intersections == null)
-			return Double3.ONE;   
-		for(GeoPoint gp:intersections)
-		{
-			//diminish the transparency based on the transparency of the geometry
-			ktr = ktr.product(gp.geometry.getMaterial().kT); 
-			
-			//if it's mostly opaque, make it fully opaque
-			if (ktr.lowerThan(MIN_CALC_COLOR_K))
-			{
+		if (intersections == null)
+			return Double3.ONE;
+		for (GeoPoint gp : intersections) {
+			// diminish the transparency based on the transparency of the geometry
+			ktr = ktr.product(gp.geometry.getMaterial().kT);
+
+			// if it's mostly opaque, make it fully opaque
+			if (ktr.lowerThan(MIN_CALC_COLOR_K)) {
 				return Double3.ZERO;
 			}
 		}
-		return ktr; 
+		return ktr;
 	}
 
 	/**

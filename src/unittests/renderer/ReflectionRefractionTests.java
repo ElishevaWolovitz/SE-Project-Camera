@@ -1,6 +1,3 @@
-/**
- * 
- */
 package unittests.renderer;
 
 import org.junit.jupiter.api.Test;
@@ -92,9 +89,9 @@ public class ReflectionRefractionTests {
 
 		scene.geometries.add( //
 				new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135), new Point(75, 75, -150)) //
-						.setMaterial(new Material().setKD(0.5).setKD(0.5).setNShininess(60)), //
+						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(60)), //
 				new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150)) //
-						.setMaterial(new Material().setKD(0.5).setKD(0.5).setNShininess(60)), //
+						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(60)), //
 				new Sphere(new Point(60, 50, -50), 30d).setEmission(new Color(BLUE)) //
 						.setMaterial(new Material().setKD(0.2).setKS(0.2).setNShininess(30).setKT(0.6)));
 
@@ -107,5 +104,41 @@ public class ReflectionRefractionTests {
 				.renderImage() //
 				.writeToImage();
 	}
-}
 
+	@Test
+	public void testCustomSceneReflectionRefractionAndShadows() {
+		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(200, 200).setVPDistance(1000);
+
+		scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
+
+		scene.geometries.add(
+				// bottom triangle
+				new Triangle(new Point(-150, -150, -200), new Point(150, -150, -200), new Point(0, 75, -150)) //
+						.setEmission(new Color(30, 220, 80)) //
+						.setMaterial(new Material().setKD(0.55).setKS(0.4).setNShininess(20).setKR(0.95)), //
+				// sphere above
+				new Sphere(new Point(0, -75, -125), 50).setEmission(new Color(30, 220, 80)) //
+						.setEmission(new Color(java.awt.Color.MAGENTA)) //
+						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30).setKT(0.5)), //
+				// sphere inside sphere on top
+				new Sphere(new Point(0, -52, -125), 20).setEmission(new Color(30, 220, 80)) //
+						.setEmission(new Color(java.awt.Color.MAGENTA)) //
+						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)), //
+				// sphere inside sphere on bottom
+				new Sphere(new Point(0, -98, -125), 20).setEmission(new Color(30, 220, 80)) //
+						.setEmission(new Color(java.awt.Color.MAGENTA)) //
+						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)) //
+		);
+
+		scene.lights.add(new SpotLight(new Color(400, 300, 200), new Point(-175, -100, -50), new Vector(175, 25, -75)) //
+				.setKL(0.00001).setKQ(0.000005));
+
+		ImageWriter imageWriter = new ImageWriter("customSceneReflectionRefractionAndShadows", 600, 600);
+		camera.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(scene)) //
+				.renderImage() //
+				.writeToImage();
+
+	}
+}
