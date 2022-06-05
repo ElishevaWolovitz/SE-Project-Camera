@@ -1,6 +1,6 @@
 package unittests.renderer;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import geometries.*;
 import lighting.*;
@@ -29,13 +29,15 @@ public class ShadowTests {
 						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)), //
 				new Triangle(new Point(-70, -40, 0), new Point(-40, -70, 0), new Point(-68, -68, -4)) //
-						.setEmission(new Color(java.awt.Color.RED)) //
+						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)) //
 		);
 		scene.lights.add( //
 				new SpotLight(new Color(400, 240, 0), new Point(-100, -100, 200), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleInitial", 400, 400)) //
+				.setSupersampling(true) //
+				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
 	}
@@ -52,13 +54,15 @@ public class ShadowTests {
 						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)), //
 				new Triangle(new Point(-60, -30, 0), new Point(-30, -60, 0), new Point(-58, -58, -4)) //
-						.setEmission(new Color(java.awt.Color.RED)) //
+						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)) //
 		);
 		scene.lights.add( //
 				new SpotLight(new Color(400, 240, 0), new Point(-100, -100, 200), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleMoveTriangle1", 400, 400)) //
+				.setSupersampling(true) //
+				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
 	}
@@ -74,13 +78,15 @@ public class ShadowTests {
 						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)), //
 				new Triangle(new Point(-50, -20, 0), new Point(-20, -50, 0), new Point(-48, -48, -4)) //
-						.setEmission(new Color(java.awt.Color.RED)) //
+						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)) //
 		);
 		scene.lights.add( //
 				new SpotLight(new Color(400, 240, 0), new Point(-100, -100, 200), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleMoveTriangle2", 400, 400)) //
+				.setSupersampling(true) //
+				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
 	}
@@ -97,13 +103,15 @@ public class ShadowTests {
 						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)), //
 				new Triangle(new Point(-70, -40, 0), new Point(-40, -70, 0), new Point(-68, -68, -4)) //
-						.setEmission(new Color(java.awt.Color.RED)) //
+						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)) //
 		);
 		scene.lights.add( //
 				new SpotLight(new Color(400, 240, 0), new Point(-85, -85, 100), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleMoveLight1", 400, 400)) //
+				.setSupersampling(true) //
+				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
 	}
@@ -119,13 +127,15 @@ public class ShadowTests {
 						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)), //
 				new Triangle(new Point(-70, -40, 0), new Point(-40, -70, 0), new Point(-68, -68, -4)) //
-						.setEmission(new Color(java.awt.Color.RED)) //
+						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)) //
 		);
 		scene.lights.add( //
 				new SpotLight(new Color(400, 240, 0), new Point(-75, -75, 65), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleMoveLight2", 400, 400)) //
+				.setSupersampling(true) //
+				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
 	}
@@ -151,6 +161,8 @@ public class ShadowTests {
 				new SpotLight(new Color(700, 400, 400), new Point(40, 40, 115), new Vector(-1, -1, -4)) //
 						.setKL(4E-4).setKQ(2E-5));
 		camera.setImageWriter(new ImageWriter("trianglesSphere", 400, 400)) //
+				.setSupersampling(true) //
+				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
 	}

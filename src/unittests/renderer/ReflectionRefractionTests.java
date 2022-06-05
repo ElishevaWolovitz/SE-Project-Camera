@@ -39,6 +39,7 @@ public class ReflectionRefractionTests {
 
 		camera.setImageWriter(new ImageWriter("refractionTwoSpheres", 500, 500)) //
 				.setRayTracer(new RayTracerBasic(scene)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage();
 	}
@@ -72,6 +73,7 @@ public class ReflectionRefractionTests {
 		ImageWriter imageWriter = new ImageWriter("reflectionTwoSpheresMirrored", 500, 500);
 		camera.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage();
 	}
@@ -101,6 +103,7 @@ public class ReflectionRefractionTests {
 		ImageWriter imageWriter = new ImageWriter("refractionShadow", 600, 600);
 		camera.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage();
 	}
@@ -137,6 +140,7 @@ public class ReflectionRefractionTests {
 		ImageWriter imageWriter = new ImageWriter("customSceneReflectionRefractionAndShadows", 600, 600);
 		camera.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage();
 

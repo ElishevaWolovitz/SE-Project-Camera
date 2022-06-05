@@ -1,6 +1,5 @@
 package renderer;
 
-//import java.util.List;
 import java.util.MissingResourceException;
 
 import primitives.*;
@@ -20,6 +19,8 @@ public class Camera {
     private double distance; // distance from the camera to the view plane
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
+    private boolean supersampling; // supersampling true=ON, false=OFF
+    private int supersamplingGridSize; // grid size of the supersampling (eg. 9 for 9x9 grid)
 
     /**
      * Camera constructor
@@ -39,6 +40,28 @@ public class Camera {
             throw new IllegalArgumentException("vUp and vTo must be orthogonal");
         }
         this.vRight = vTo.crossProduct(vUp).normalize();
+    }
+
+    /**
+     * Set the supersampling on or off
+     *
+     * @param supersampling true=ON, false=OFF
+     * @return the current camera
+     */
+    public Camera setSupersampling(boolean supersampling) {
+        this.supersampling = supersampling;
+        return this;
+    }
+
+    /**
+     * Set the grid size of the supersampling
+     * 
+     * @param gridSize grid size of the supersampling (eg. 9 for 9x9 grid)
+     * @return the current camera
+     */
+    public Camera setSupersamplingGridSize(int gridSize) {
+        this.supersamplingGridSize = gridSize;
+        return this;
     }
 
     /**
@@ -215,13 +238,67 @@ public class Camera {
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numColumns; col++) {
                 ray = constructRayThroughPixel(numColumns, numRows, col, row);
-                color = rayTracer.traceRay(ray);
+                if (supersampling) {
+                    color = calcSupersamplingColor(ray);
+                } else {
+                    color = rayTracer.traceRay(ray);
+                }
                 imageWriter.writePixel(col, row, color);
             }
         }
         return this;
     }
 
+    /**
+     * Calculates the color of a pixel using supersampling
+     * 
+     * @param ray the main ray to trace around
+     * @return color of the pixel
+     */
+    private Color calcSupersamplingColor(Ray mainRay) {
+        Ray ray;
+        Color result = Color.BLACK;
+        // height and width of the pixel
+        double pixelWidth = width / imageWriter.getNx();
+        double pixelHeight = height / imageWriter.getNy();
+        // amount to move to get from one supersampling ray location to the next
+        double raySpacingVertical = pixelHeight / (supersamplingGridSize + 1);
+        double raySpacingHorizontal = pixelWidth / (supersamplingGridSize + 1);
+        // locate the point of the top left ray to start constructing the grid from
+        Point centerOfPixel = mainRay.getPoint(distance);
+        Point topLeftRayPoint = centerOfPixel //
+                .add(vRight.scale(-pixelWidth / 2 - raySpacingHorizontal)) //
+                .add(vUp.scale(pixelHeight / 2 - raySpacingVertical));
+        // create the grid of rays
+        for (int row = 0; row < supersamplingGridSize; row++) {
+            for (int col = 0; col < supersamplingGridSize; col++) {
+                Point rayPoint = topLeftRayPoint;
+                // move the ray down
+                if (row > 0) {
+                    rayPoint = rayPoint.add(vUp.scale(-row * raySpacingVertical));
+                }
+                // move the ray right
+                if (col > 0) {
+                    rayPoint = rayPoint.add(vRight.scale(col * raySpacingHorizontal));
+                }
+                // create the ray
+                ray = new Ray(p0, rayPoint.subtract(p0));
+                // trace the ray
+                Color color = rayTracer.traceRay(ray);
+                result = result.add(color);
+            }
+        }
+        // divide the color by the number of rays to get the average color
+        double numRays = (double) supersamplingGridSize * supersamplingGridSize;
+        return result.reduce(numRays);
+    }
+
+    /**
+     * Print a grid of lines to the image
+     * 
+     * @param interval The interval between lines
+     * @param color    The color of the lines
+     */
     public void printGrid(int interval, Color color) {
         if (imageWriter == null)
             throw new MissingResourceException(null, null, null);
@@ -237,6 +314,10 @@ public class Camera {
         imageWriter.writeToImage();
     }
 
+    /**
+     * Produces unoptimized png file of the image according to pixel color matrix in
+     * the directory of the project
+     */
     public void writeToImage() {
         if (imageWriter == null)
             throw new MissingResourceException(null, null, null);

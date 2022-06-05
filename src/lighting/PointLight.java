@@ -70,6 +70,7 @@ public class PointLight extends Light implements LightSource {
 		Color intensity = super.getIntensity();
 		double distanceSquared = position.distanceSquared(p);
 		double distance = Math.sqrt(distanceSquared);
+		// KC, KL, and KQ determine how distance affects the amount of light on the object
 		return intensity.reduce(kC + kL * distance + kQ * distanceSquared);
 	}
 

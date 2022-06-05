@@ -53,6 +53,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSphereDirectional", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -68,6 +69,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -83,6 +85,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -98,6 +101,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesDirectional", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -113,6 +117,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesPoint", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -128,6 +133,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesSpot", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -144,6 +150,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSphereSpotSharp", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -159,6 +166,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesSpotSharp", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -178,6 +186,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSphereAllLights", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -198,6 +207,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesAllLights", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(false) //
 				.renderImage() //
 				.writeToImage(); //
 	}
