@@ -53,7 +53,12 @@ public class Plane extends Geometry {
 		this.normal = v1;
 		this.q0 = p1;
 	}
-
+	/**
+	 * method calculates a list of geoPoints that a ray from the light source to the object intersects 
+	 * @param a ray
+	 * @param max distance - the distance between the object in question and the light source
+	 * @return returns a list of geoPoints btwn the geometry and the light source
+	 */
 	@Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
 		// P0: Ray origin
