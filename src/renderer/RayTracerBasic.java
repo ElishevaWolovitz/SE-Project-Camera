@@ -258,7 +258,7 @@ public class RayTracerBasic extends RayTracerBase {
 	}
 
 	/**
-	 * Method that recieves a ray and finds a list of intersections of the ray with
+	 * Method that receives a ray and finds a list of intersections of the ray with
 	 * geometries and returns the closest of those intersections
 	 * 
 	 * @param ray - the ray to find the closest intersection for
