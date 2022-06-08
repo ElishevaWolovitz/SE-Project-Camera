@@ -125,10 +125,10 @@ public class ReflectionRefractionTests {
 						.setEmission(new Color(20, 20, 20)) //
 						.setMaterial(new Material().setKD(0.55).setKS(0.4).setNShininess(20).setKR(0.95)), //
 				// sphere above
-			/*	new Sphere(new Point(0, -75, -125), 50).setEmission(new Color(30, 220, 80)) //
+			  new Sphere(new Point(0, -75, -125), 50).setEmission(new Color(30, 220, 80)) //
 						.setEmission(new Color(java.awt.Color.MAGENTA)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30).setKT(0.5)), //
-						*/
+						
 				// sphere inside sphere on top
 				new Sphere(new Point(0, -52, -125), 20).setEmission(new Color(30, 220, 80)) //
 						.setEmission(new Color(java.awt.Color.MAGENTA)) //
