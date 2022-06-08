@@ -235,17 +235,30 @@ public class Camera {
         Color color;
         int numRows = imageWriter.getNy();
         int numColumns = imageWriter.getNx();
-        for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numColumns; col++) {
-                ray = constructRayThroughPixel(numColumns, numRows, col, row);
-                if (supersampling) {
-                    color = calcSupersamplingColor(ray);
-                } else {
-                    color = rayTracer.traceRay(ray);
-                }
-                imageWriter.writePixel(col, row, color);
-            }
+        if(supersampling)
+        { for (int row = 0; row < numRows; row++) 
+        	{
+            for (int col = 0; col < numColumns; col++)
+	            {
+	                ray = constructRayThroughPixel(numColumns, numRows, col, row);
+	                color = calcSupersamplingColor(ray);
+	                imageWriter.writePixel(col, row, color);
+	            }
+        	}
         }
+        else
+        {
+	        for (int row = 0; row < numRows; row++) 
+	        	{
+	            for (int col = 0; col < numColumns; col++) 
+	            	{
+	                ray = constructRayThroughPixel(numColumns, numRows, col, row);
+	                color = rayTracer.traceRay(ray);
+	                imageWriter.writePixel(col, row, color);
+	            	}
+	        	}
+        }
+        
         return this;
     }
 
