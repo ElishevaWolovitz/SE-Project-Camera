@@ -87,7 +87,7 @@ public class ReflectionRefractionTests {
 	@Test
 	public void trianglesTransparentSphere() {
 		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-				.setVPSize(200, 200).setVPDistance(1000);
+				.setVPSize(200, 200).setVPDistance(1000).setSupersampling(false);
 
 		scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
 
@@ -125,7 +125,7 @@ public class ReflectionRefractionTests {
 						.setEmission(new Color(20, 20, 20)) //
 						.setMaterial(new Material().setKD(0.55).setKS(0.4).setNShininess(20).setKR(0.95)), //
 				// sphere above
-			  new Sphere(new Point(0, -75, -125), 50).setEmission(new Color(30, 220, 80)) //
+				new Sphere(new Point(0, -75, -125), 50).setEmission(new Color(30, 220, 80)) //
 						.setEmission(new Color(java.awt.Color.MAGENTA)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30).setKT(0.5)), //
 						

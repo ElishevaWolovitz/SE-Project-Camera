@@ -235,28 +235,31 @@ public class Camera {
         Color color;
         int numRows = imageWriter.getNy();
         int numColumns = imageWriter.getNx();
+        //if supersampling activated, calculate color of pixels using supersampling function
         if(supersampling)
-        { for (int row = 0; row < numRows; row++) 
+        {
+        	for (int row = 0; row < numRows; row++) 
         	{
-            for (int col = 0; col < numColumns; col++)
+	            for (int col = 0; col < numColumns; col++)
 	            {
-	                ray = constructRayThroughPixel(numColumns, numRows, col, row);
-	                color = calcSupersamplingColor(ray);
-	                imageWriter.writePixel(col, row, color);
-	            }
+		                ray = constructRayThroughPixel(numColumns, numRows, col, row);
+		                color = calcSupersamplingColor(ray);
+		                imageWriter.writePixel(col, row, color);
+		        }
         	}
         }
+        //otherwise, calculate color of pixels without it (using only one ray per pixel)
         else
         {
 	        for (int row = 0; row < numRows; row++) 
-	        	{
+	        {
 	            for (int col = 0; col < numColumns; col++) 
-	            	{
+	            {
 	                ray = constructRayThroughPixel(numColumns, numRows, col, row);
 	                color = rayTracer.traceRay(ray);
 	                imageWriter.writePixel(col, row, color);
-	            	}
-	        	}
+	            }
+	        }
         }
         
         return this;
@@ -299,6 +302,7 @@ public class Camera {
                 // trace the ray
                 Color color = rayTracer.traceRay(ray);
                 result = result.add(color);
+                
             }
         }
         // divide the color by the number of rays to get the average color
