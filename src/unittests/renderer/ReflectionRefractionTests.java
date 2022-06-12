@@ -87,7 +87,7 @@ public class ReflectionRefractionTests {
 	@Test
 	public void trianglesTransparentSphere() {
 		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-				.setVPSize(200, 200).setVPDistance(1000).setSupersampling(false);
+				.setVPSize(200, 200).setVPDistance(1000);
 
 		scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
 
@@ -110,7 +110,8 @@ public class ReflectionRefractionTests {
 				.writeToImage();
 	}
 	/**
-	 * 
+	 * produces out custom picture made up of 5 triangles (one big one and 4 small ones making up squares) 
+	 * and 5 spheres and with a point light, spot light an dsirectional light
 	 */
 	@Test
 	public void testCustomSceneReflectionRefractionAndShadowsMiniProj1() {
@@ -125,7 +126,7 @@ public class ReflectionRefractionTests {
 						.setEmission(new Color(20, 20, 20)) //
 						.setMaterial(new Material().setKD(0.55).setKS(0.4).setNShininess(20).setKR(0.95)), //
 				// sphere above
-				new Sphere(new Point(0, -75, -125), 50).setEmission(new Color(30, 220, 80)) //
+			  new Sphere(new Point(0, -75, -125), 50).setEmission(new Color(30, 220, 80)) //
 						.setEmission(new Color(java.awt.Color.MAGENTA)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30).setKT(0.5)), //
 						
@@ -137,37 +138,42 @@ public class ReflectionRefractionTests {
 				new Sphere(new Point(0, -98, -125), 20).setEmission(new Color(30, 220, 80)) //
 						.setEmission(new Color(java.awt.Color.MAGENTA)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.5).setNShininess(30)), //
-				//
+				//bottom tirangle on left side
 				new Triangle(new Point(-150, 80, -180), new Point(-150, 150, -180), new Point(-80, 80, -180)) //
 						.setEmission(new Color(java.awt.Color.GRAY)) //
 						.setMaterial(new Material().setKD(0.55).setKS(0.4).setNShininess(20)), //
-				new Triangle(new Point(-150, 150, -180), new Point(-80, 80, -180), new Point(-80, 150, -180)) //
+				//top triangle on left side
+				new Triangle(new Point(-150, 151, -180), new Point(-80, 81, -180), new Point(-80, 151, -180)) //
 						.setEmission(new Color(java.awt.Color.GRAY)) //
 						.setMaterial(new Material().setKD(0.55).setKS(0.4).setNShininess(20)), //
+				//bottom tirangle on right side
 				new Triangle(new Point(80, 150, -180), new Point(80, 80, -180), new Point(150, 80, -180)) //
-						.setEmission(new Color(java.awt.Color.GRAY)) //
+						.setEmission(new Color(java.awt.Color.BLUE)) //
 						.setMaterial(new Material().setKD(0.55).setKS(0.4).setNShininess(20)), //
+				//top triangle on the right 
 				new Triangle(new Point(80, 150, -180), new Point(150, 80, -180), new Point(150, 150, -180)) //
-						.setEmission(new Color(java.awt.Color.GRAY)) //
-						.setMaterial(new Material().setKD(0.55).setKS(0.4).setNShininess(20).setKR(0.5)), //
+						.setEmission(new Color(java.awt.Color.BLUE)) //
+						.setMaterial(new Material().setKD(0.55).setKS(0.4).setNShininess(20)), //
+				//yellow small sphere on left
 				new Sphere(new Point(-125, 100, -130), 15).setEmission(new Color(30, 220, 80)) //
 						.setEmission(new Color(java.awt.Color.YELLOW)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.1).setNShininess(30).setKT(0.6)), //
-				// sphere inside sphere on bottom
-				new Sphere(new Point(125, 100, -130), 15).setEmission(new Color(30, 220, 80)) //
+				// yellow small sphere on the right 
+				new Sphere(new Point(125, 100, -170), 15).setEmission(new Color(30, 220, 80)) //
 						.setEmission(new Color(java.awt.Color.YELLOW)) //
 						.setMaterial(new Material().setKD(0.5).setKS(0.1).setNShininess(30))
 		);
-		scene.lights.add(new PointLight(new Color(400, 300, 200), new Point(0, 1100, -50)) //
+		scene.lights.add(new PointLight(new Color(400, 300, 200), new Point(0, 0, 1100)) //
 				.setKL(0.00001).setKQ(0.000005));
 		scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point(-175, -100, -50), new Vector(175, 25, -75))//
-				.setKL(4E-5).setKQ(2E-7)); //
-		scene.lights.add(new DirectionalLight(new Color(700, 400, 400), new Vector(200, 200, 150))); 
+				.setKL(0.00001).setKQ(0.000005)); //
+		scene.lights.add(new DirectionalLight(new Color(200, 50, 50), new Vector(-300, -300, -150))); 
 	
-		ImageWriter imageWriter = new ImageWriter("customSceneReflectionRefractionAndShadowsMiniProj1", 600, 600);
+		ImageWriter imageWriter = new ImageWriter("customSceneReflectionRefractionAndShadowsMiniProj1woSS", 600, 600);
 		camera.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene)) //
-				.setSupersampling(false) //
+				.setSupersampling(false)//
+				/*.setSupersamplingGridSize(9)//*/
 				.renderImage() //
 				.writeToImage();
 	
