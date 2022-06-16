@@ -1,6 +1,9 @@
 package renderer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.MissingResourceException;
+import java.util.stream.Collectors;
 
 import primitives.*;
 import static primitives.Util.*;
@@ -10,17 +13,29 @@ import static primitives.Util.*;
  */
 public class Camera {
 
+    /**
+     * Choices for the supersampling type
+     */
+    public enum SUPERSAMPLING_TYPE {
+        NONE, REGULAR, ADAPTIVE
+    }
+
     private Point p0;
     private Vector vUp;
     private Vector vTo;
     private Vector vRight;
-    private double width; // width of the view plane in pixels
-    private double height; // height of the view plane in pixels
-    private double distance; // distance from the camera to the view plane
+    private double viewPlaneWidth;
+    private double viewPlaneHeight;
+    private double viewPlaneDistance;
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
-    private boolean supersampling; // supersampling true=ON, false=OFF
-    private int supersamplingGridSize; // grid size of the supersampling (eg. 9 for 9x9 grid)
+
+    // These values are not hard-coded since they can be overriden by calling the
+    // respective setter methods
+    private int supersamplingGridSize = 9; // grid size for regular supersampling (eg. 9 for 9x9 grid)
+    private SUPERSAMPLING_TYPE supersamplingType = SUPERSAMPLING_TYPE.ADAPTIVE; // type of the supersampling (eg. NONE,
+                                                                                // RANDOM, GRID)
+    private int adaptiveSupersamplingMaxRecursionDepth = 3; // constant max depth for adaptive supersampling
 
     /**
      * Camera constructor
@@ -43,13 +58,13 @@ public class Camera {
     }
 
     /**
-     * Set the supersampling on or off
+     * Set the supersampling to NONE, REGULAR or ADAPTIVE
      *
-     * @param supersampling true=ON, false=OFF
+     * @param SUPERSAMPLING_TYPE type of the supersampling (NONE, REGULAR, ADAPTIVE)
      * @return the current camera
      */
-    public Camera setSupersampling(boolean supersampling) {
-        this.supersampling = supersampling;
+    public Camera setSupersampling(SUPERSAMPLING_TYPE type) {
+        this.supersamplingType = type;
         return this;
     }
 
@@ -65,6 +80,17 @@ public class Camera {
     }
 
     /**
+     * Set the max recursion depth for the adaptive supersampling
+     * 
+     * @param maxRecursionDepth max recursion depth for the adaptive supersampling
+     * @return the current camera
+     */
+    public Camera setAdaptiveSupersamplingMaxRecursionDepth(int maxRecursionDepth) {
+        this.adaptiveSupersamplingMaxRecursionDepth = maxRecursionDepth;
+        return this;
+    }
+
+    /**
      * Set view plane size
      * 
      * @param width  The width of the view plane in pixels
@@ -73,8 +99,8 @@ public class Camera {
      * @return Camera
      */
     public Camera setViewPlaneSize(double width, double height) {
-        this.width = width;
-        this.height = height;
+        this.viewPlaneWidth = width;
+        this.viewPlaneHeight = height;
         return this;
     }
 
@@ -85,14 +111,8 @@ public class Camera {
      *
      * @return Camera
      */
-    public Camera setVPDistance(double distance) {
-        this.distance = distance;
-        return this;
-    }
-
-    public Camera setVPSize(double width, double height) {
-        this.width = width;
-        this.height = height;
+    public Camera setViewPlaneDistance(double distance) {
+        this.viewPlaneDistance = distance;
         return this;
     }
 
@@ -125,7 +145,7 @@ public class Camera {
      * @return camera
      */
     public Camera setHeight(double d) {
-        height = d;
+        viewPlaneHeight = d;
         return this;
     }
 
@@ -136,7 +156,7 @@ public class Camera {
      * @return camera
      */
     public Camera setWidth(double d) {
-        width = d;
+        viewPlaneWidth = d;
         return this;
     }
 
@@ -195,9 +215,9 @@ public class Camera {
      * @return The ray through the pixel
      */
     public Ray constructRayThroughPixel(int nX, int nY, int j, int i) {
-        Point pc = p0.add(vTo.scale(distance)); // center point of the view plane
-        double pixelWidth = width / nX; // width of a pixel
-        double pixelHeight = height / nY; // height of a pixel
+        Point pc = p0.add(vTo.scale(viewPlaneDistance)); // center point of the view plane
+        double pixelWidth = viewPlaneWidth / nX; // width of a pixel
+        double pixelHeight = viewPlaneHeight / nY; // height of a pixel
         double pcX = (nX - 1) / 2.0; // center pixel value in x direction
         double pcY = (nY - 1) / 2.0; // center pixel value in y direction
         double rightDistance = (j - pcX) * pixelWidth; // x offset of j from the center pixel
@@ -227,7 +247,8 @@ public class Camera {
      * @throws MissingResourceException
      */
     public Camera renderImage() throws MissingResourceException {
-        if (p0 == null || vUp == null || vRight == null || width == 0 || height == 0 || distance == 0
+        if (p0 == null || vUp == null || vRight == null || viewPlaneWidth == 0 || viewPlaneHeight == 0
+                || viewPlaneDistance == 0
                 || imageWriter == null || rayTracer == null) {
             throw new MissingResourceException(null, null, null);
         }
@@ -235,59 +256,42 @@ public class Camera {
         Color color;
         int numRows = imageWriter.getNy();
         int numColumns = imageWriter.getNx();
-        //if supersampling activated, calculate color of pixels using supersampling function
-        if(supersampling)
-        {
-        	for (int row = 0; row < numRows; row++) 
-        	{
-	            for (int col = 0; col < numColumns; col++)
-	            {
-		                ray = constructRayThroughPixel(numColumns, numRows, col, row);
-		                color = calcSupersamplingColor(ray);
-		                imageWriter.writePixel(col, row, color);
-		        }
-        	}
+        // height and width of the pixel
+        double pixelWidth = viewPlaneWidth / numColumns;
+        double pixelHeight = viewPlaneHeight / numRows;
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numColumns; col++) {
+                ray = constructRayThroughPixel(numColumns, numRows, col, row);
+                if (supersamplingType == SUPERSAMPLING_TYPE.ADAPTIVE) {
+                    color = calcAdaptiveSupersamplingColor(ray, pixelWidth, pixelHeight,
+                            adaptiveSupersamplingMaxRecursionDepth);
+                } else if (supersamplingType == SUPERSAMPLING_TYPE.REGULAR) {
+                    color = calcSupersamplingColor(ray, pixelWidth, pixelHeight);
+                } else {
+                    color = rayTracer.traceRay(ray);
+                }
+                imageWriter.writePixel(col, row, color);
+            }
         }
-        //otherwise, calculate color of pixels without it (using only one ray per pixel)
-        else
-        {
-	        for (int row = 0; row < numRows; row++) 
-	        {
-	            for (int col = 0; col < numColumns; col++) 
-	            {
-	                ray = constructRayThroughPixel(numColumns, numRows, col, row);
-	                color = rayTracer.traceRay(ray);
-	                imageWriter.writePixel(col, row, color);
-	            }
-	        }
-        }
-        
         return this;
     }
 
     /**
-     * Calculates the color of a pixel using supersampling
+     * Construct a grid of rays from a center point, a width and height, and a grid
+     * size
      * 
-     * @param ray the main ray to trace around
-     * @return color of the pixel
+     * @param topLeftRayPoint      The top left point of the grid
+     * @param raySpacingHorizontal The horizontal spacing between ray points
+     * @param raySpacingVertical   The vertical spacing between ray points
+     * @param gridSize             the size of the grid
      */
-    private Color calcSupersamplingColor(Ray mainRay) {
+    private List<Ray> constructGridOfRays(Point topLeftRayPoint, double raySpacingHorizontal, double raySpacingVertical,
+            int gridSize) {
         Ray ray;
-        Color result = Color.BLACK;
-        // height and width of the pixel
-        double pixelWidth = width / imageWriter.getNx();
-        double pixelHeight = height / imageWriter.getNy();
-        // amount to move to get from one supersampling ray location to the next
-        double raySpacingVertical = pixelHeight / (supersamplingGridSize + 1);
-        double raySpacingHorizontal = pixelWidth / (supersamplingGridSize + 1);
-        // locate the point of the top left ray to start constructing the grid from
-        Point centerOfPixel = mainRay.getPoint(distance);
-        Point topLeftRayPoint = centerOfPixel //
-                .add(vRight.scale(-pixelWidth / 2 - raySpacingHorizontal)) //
-                .add(vUp.scale(pixelHeight / 2 - raySpacingVertical));
+        List<Ray> rays = new ArrayList<>();
         // create the grid of rays
-        for (int row = 0; row < supersamplingGridSize; row++) {
-            for (int col = 0; col < supersamplingGridSize; col++) {
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
                 Point rayPoint = topLeftRayPoint;
                 // move the ray down
                 if (row > 0) {
@@ -299,15 +303,86 @@ public class Camera {
                 }
                 // create the ray
                 ray = new Ray(p0, rayPoint.subtract(p0));
-                // trace the ray
-                Color color = rayTracer.traceRay(ray);
-                result = result.add(color);
-                
+                // add the ray to the list
+                rays.add(ray);
             }
+        }
+        return rays;
+    }
+
+    /**
+     * Calculates the color of a pixel using supersampling
+     * 
+     * @param mainRay     the main ray to trace around
+     * @param pixelWidth  the width of the pixel
+     * @param pixelHeight the height of the pixel
+     * @return color of the pixel
+     */
+    private Color calcSupersamplingColor(Ray mainRay, double pixelWidth, double pixelHeight) {
+        // locate the point of the top left ray to start constructing the grid from
+        Point centerOfPixel = mainRay.getPoint(viewPlaneDistance);
+        // amount to move to get from one supersampling ray location to the next
+        double raySpacingVertical = pixelHeight / (supersamplingGridSize + 1);
+        double raySpacingHorizontal = pixelWidth / (supersamplingGridSize + 1);
+        Point topLeftRayPoint = centerOfPixel //
+                .add(vRight.scale(-pixelWidth / 2 - raySpacingHorizontal)) //
+                .add(vUp.scale(pixelHeight / 2 - raySpacingVertical));
+        List<Ray> rays = constructGridOfRays(topLeftRayPoint, raySpacingHorizontal, raySpacingVertical,
+                supersamplingGridSize);
+        Color result = Color.BLACK;
+        for (Ray ray : rays) {
+            result = result.add(rayTracer.traceRay(ray));
         }
         // divide the color by the number of rays to get the average color
         double numRays = (double) supersamplingGridSize * supersamplingGridSize;
         return result.reduce(numRays);
+    }
+
+    /**
+     * Calculates the color of a pixel using adaptive supersampling
+     * 
+     * @param centerRay   the ray to trace around
+     * @param pixelWidth  the width of the pixel
+     * @param pixelHeight the height of the pixel
+     * @param level       the level of the adaptive supersampling (if level is 0,
+     *                    return)
+     * @return color of the pixel
+     */
+    private Color calcAdaptiveSupersamplingColor(Ray centerRay, double pixelWidth, double pixelHeight, int level) {
+        // spacing between rays vertically
+        double halfPixelHeight = pixelHeight / 2;
+        // spacing between rays horizontally
+        double halfPixelWidth = pixelWidth / 2;
+        // move 1/4 left and 1/4 up from the center ray
+        Point topLeftRayPoint = centerRay.getPoint(viewPlaneDistance) //
+                .add(vRight.scale(-(halfPixelWidth / 2))) //
+                .add(vUp.scale(halfPixelHeight / 2));
+        // gridSize is always 2 since the grid is always a 2x2 grid of rays in
+        // adaptive supersampling
+        List<Ray> rays = constructGridOfRays(topLeftRayPoint, halfPixelWidth, halfPixelHeight, 2);
+
+        // get the colors of the rays
+        List<Color> colors = rays.stream().map(ray -> rayTracer.traceRay(ray)).collect(Collectors.toList());
+
+        // if recursion level is 1, return the average color of the rays
+        if (level == 1) {
+            return colors.get(0).add(colors.get(1), colors.get(2), colors.get(3)).reduce(4);
+        }
+
+        // check if the colors are all the similar enough to be considered the same
+        if (colors.get(0).similar(colors.get(1)) //
+                && colors.get(0).similar(colors.get(2)) //
+                && colors.get(0).similar(colors.get(3))) {
+            // if they are, return any one of them
+            return colors.get(0);
+        }
+
+        // otherwsie average the colors of the four parts of the pixel
+        return calcAdaptiveSupersamplingColor(rays.get(0), halfPixelWidth, halfPixelHeight, level - 1) //
+                .add(calcAdaptiveSupersamplingColor(rays.get(1), halfPixelWidth, halfPixelHeight, level - 1), //
+                        calcAdaptiveSupersamplingColor(rays.get(2), halfPixelWidth, halfPixelHeight, level - 1), //
+                        calcAdaptiveSupersamplingColor(rays.get(3), halfPixelWidth, halfPixelHeight, level - 1)) //
+                .reduce(4);
     }
 
     /**

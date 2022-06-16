@@ -32,7 +32,7 @@ public class ViewPlaneIntegrationTests {
         List<Point> intersections = null;
 
         camera.setViewPlaneSize(3, 3); // size of the view plane
-        camera.setVPDistance(1); // distance from the camera to the view plane
+        camera.setViewPlaneDistance(1); // distance from the camera to the view plane
         int nX = 3; // number of pixels in x direction
         int nY = 3; // number of pixels in y direction
         // view plane 3X3 (WxH 3X3, nX,nY = 3 => Rx,Ry = 1)

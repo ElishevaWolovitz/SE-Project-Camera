@@ -9,6 +9,13 @@ package primitives;
  * @author Dan Zilberstein
  */
 public class Color {
+
+	/**
+	 * Delta of similarity between colors (how similar colors can be to be
+	 * considered equal in adaptive supersampling)
+	 */
+	private static final int DELTA = 5;
+
 	/**
 	 * The internal fields tx`o maintain RGB components as double numbers from 0 to
 	 * whatever...
@@ -41,12 +48,11 @@ public class Color {
 		rgb = new Double3(r, g, b);
 	}
 
-
 	/**
 	 * Constructor to generate a color according to RGB components Each component in
 	 * range 0..255 (for printed white color) or more [for lights]
 	 *
-	 * @param rgb triad of Red/Green/Blue components 
+	 * @param rgb triad of Red/Green/Blue components
 	 */
 	private Color(Double3 rgb) {
 		if (rgb.d1 < 0 || rgb.d2 < 0 || rgb.d3 < 0)
@@ -105,7 +111,7 @@ public class Color {
 			throw new IllegalArgumentException("Can't scale a color by a negative number");
 		return new Color(rgb.product(k));
 	}
-	
+
 	/**
 	 * Scale the color by a scalar
 	 *
@@ -142,4 +148,19 @@ public class Color {
 		return new Color(rgb.d1 / k.d1, rgb.d2 / k.d2, rgb.d3 / k.d3);
 	}
 
+	/**
+	 * Compare two colors by their RGB components and return true if they are
+	 * similar enough to be considered equal for adaptive supersampling
+	 * 
+	 * @author elana
+	 * @author elish
+	 * 
+	 * @param color   color to compare to
+	 * @param boolean whether the colors are similar
+	 */
+	public boolean similar(Color color) {
+		return (Math.abs(rgb.d1 - color.rgb.d1) <= DELTA) //
+				&& (Math.abs(rgb.d2 - color.rgb.d2) <= DELTA) //
+				&& (Math.abs(rgb.d3 - color.rgb.d3) <= DELTA);
+	}
 }

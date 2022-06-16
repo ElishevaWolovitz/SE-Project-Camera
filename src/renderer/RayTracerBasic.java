@@ -9,6 +9,12 @@ import lighting.LightSource;
 
 import static primitives.Util.*;
 
+/**
+ * Ray tracer subclass to implement a basic ray tracer
+ * 
+ * @author elana
+ * @author elish
+ */
 public class RayTracerBasic extends RayTracerBase {
 
 	/**

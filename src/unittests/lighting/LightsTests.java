@@ -6,6 +6,7 @@ import lighting.*;
 import geometries.*;
 import primitives.*;
 import renderer.*;
+import renderer.Camera.SUPERSAMPLING_TYPE;
 import scene.Scene;
 import static java.awt.Color.*;
 
@@ -19,11 +20,11 @@ public class LightsTests {
 	private Scene scene2 = new Scene("Test scene") //
 			.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
 	private Camera camera1 = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-			.setVPSize(150, 150) //
-			.setVPDistance(1000);
+			.setViewPlaneSize(150, 150) //
+			.setViewPlaneDistance(1000);
 	private Camera camera2 = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-			.setVPSize(200, 200) //
-			.setVPDistance(1000);
+			.setViewPlaneSize(200, 200) //
+			.setViewPlaneDistance(1000);
 
 	private Point[] p = { // The Triangles' vertices:
 			new Point(-110, -110, -150), // the shared left-bottom
@@ -53,6 +54,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSphereDirectional", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -68,6 +70,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -83,6 +86,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -98,6 +102,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesDirectional", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -113,6 +118,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesPoint", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -128,6 +134,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesSpot", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -144,6 +151,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSphereSpotSharp", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -159,6 +167,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesSpotSharp", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -178,6 +187,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightSphereAllLights", 500, 500);
 		camera1.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene1)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}
@@ -198,6 +208,7 @@ public class LightsTests {
 		ImageWriter imageWriter = new ImageWriter("lightTrianglesAllLights", 500, 500);
 		camera2.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene2)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.NONE) //
 				.renderImage() //
 				.writeToImage(); //
 	}

@@ -16,10 +16,29 @@ import primitives.Color;
  */
 public class Scene {
 
+    /**
+     * The name of the scene
+     */
     public String name1;
+
+    /**
+     * The background color of the scene
+     */
     public Color background = Color.BLACK;
+
+    /**
+     * The ambient light of the scene
+     */
     public AmbientLight ambientLight;
+
+    /**
+     * The list of geometries in the scene
+     */
     public Geometries geometries;
+
+    /**
+     * The list of light sources in the scene
+     */
     public List<LightSource> lights = new LinkedList<>();
 
     /**

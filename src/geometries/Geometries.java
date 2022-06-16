@@ -3,7 +3,6 @@ package geometries;
 import java.util.LinkedList;
 import java.util.List;
 
-import primitives.Double3;
 import primitives.Ray;
 
 /**
