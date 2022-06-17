@@ -333,9 +333,10 @@ public class Camera {
         for (Ray ray : rays) {
             result = result.add(rayTracer.traceRay(ray));
         }
+        result= result.add(rayTracer.traceRay(mainRay));
         // divide the color by the number of rays to get the average color
         double numRays = (double) supersamplingGridSize * supersamplingGridSize;
-        return result.reduce(numRays);
+        return result.reduce(numRays + 1);
     }
 
     /**
@@ -377,7 +378,7 @@ public class Camera {
             return colors.get(0);
         }
 
-        // otherwsie average the colors of the four parts of the pixel
+        // otherwise average the colors of the four parts of the pixel
         return calcAdaptiveSupersamplingColor(rays.get(0), halfPixelWidth, halfPixelHeight, level - 1) //
                 .add(calcAdaptiveSupersamplingColor(rays.get(1), halfPixelWidth, halfPixelHeight, level - 1), //
                         calcAdaptiveSupersamplingColor(rays.get(2), halfPixelWidth, halfPixelHeight, level - 1), //

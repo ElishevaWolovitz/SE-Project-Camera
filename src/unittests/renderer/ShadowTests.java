@@ -7,7 +7,7 @@ import lighting.*;
 import primitives.*;
 import renderer.*;
 import scene.Scene;
-
+import renderer.Camera.SUPERSAMPLING_TYPE;
 /**
  * Testing basic shadows
  * 
@@ -17,7 +17,7 @@ public class ShadowTests {
 	private Scene scene = new Scene("Test scene");
 	private Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 			.setViewPlaneSize(200, 200).setViewPlaneDistance(1000) //
-			.setRayTracer(new RayTracerBasic(scene)).setSupersampling(true);
+			.setRayTracer(new RayTracerBasic(scene)).setSupersampling(SUPERSAMPLING_TYPE.NONE);
 
 	/**
 	 * Produce a picture of a sphere and triangle with point light and shade
@@ -36,7 +36,7 @@ public class ShadowTests {
 				new SpotLight(new Color(400, 240, 0), new Point(-100, -100, 200), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleInitial", 400, 400)) //
-				.setSupersampling(true) //
+				.setSupersampling(SUPERSAMPLING_TYPE.REGULAR) //
 				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
@@ -61,7 +61,7 @@ public class ShadowTests {
 				new SpotLight(new Color(400, 240, 0), new Point(-100, -100, 200), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleMoveTriangle1", 400, 400)) //
-				.setSupersampling(true) //
+				.setSupersampling(SUPERSAMPLING_TYPE.REGULAR) //
 				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
@@ -85,7 +85,7 @@ public class ShadowTests {
 				new SpotLight(new Color(400, 240, 0), new Point(-100, -100, 200), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleMoveTriangle2", 400, 400)) //
-				.setSupersampling(true) //
+				.setSupersampling(SUPERSAMPLING_TYPE.REGULAR) //
 				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
@@ -110,7 +110,7 @@ public class ShadowTests {
 				new SpotLight(new Color(400, 240, 0), new Point(-85, -85, 100), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleMoveLight1", 400, 400)) //
-				.setSupersampling(true) //
+				.setSupersampling(SUPERSAMPLING_TYPE.REGULAR) //
 				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
@@ -134,7 +134,7 @@ public class ShadowTests {
 				new SpotLight(new Color(400, 240, 0), new Point(-75, -75, 65), new Vector(1, 1, -3)) //
 						.setKL(1E-5).setKQ(1.5E-7));
 		camera.setImageWriter(new ImageWriter("sphereTriangleMoveLight2", 400, 400)) //
-				.setSupersampling(true) //
+				.setSupersampling(SUPERSAMPLING_TYPE.REGULAR) //
 				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();
@@ -161,7 +161,7 @@ public class ShadowTests {
 				new SpotLight(new Color(700, 400, 400), new Point(40, 40, 115), new Vector(-1, -1, -4)) //
 						.setKL(4E-4).setKQ(2E-5));
 		camera.setImageWriter(new ImageWriter("trianglesSphere", 400, 400)) //
-				.setSupersampling(true) //
+				.setSupersampling(SUPERSAMPLING_TYPE.REGULAR) //
 				.setSupersamplingGridSize(9) //
 				.renderImage() //
 				.writeToImage();

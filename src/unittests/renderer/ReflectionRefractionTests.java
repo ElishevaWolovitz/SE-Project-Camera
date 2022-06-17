@@ -208,7 +208,7 @@ public class ReflectionRefractionTests {
 	/**
 	 * produces out custom picture made up of 5 triangles (one big one and 4 small
 	 * ones making up squares)
-	 * and 5 spheres and with a point light, spot light an dsirectional light
+	 * and 5 spheres and with a point light, spot light an directional light
 	 */
 	@Test
 	public void testCustomSceneReflectionRefractionAndShadowsMiniProj1NoSupersampling() {
@@ -235,7 +235,7 @@ public class ReflectionRefractionTests {
 	/**
 	 * produces out custom picture made up of 5 triangles (one big one and 4 small
 	 * ones making up squares)
-	 * and 5 spheres and with a point light, spot light an dsirectional light
+	 * and 5 spheres and with a point light, spot light an directional light
 	 */
 	@Test
 	public void testCustomSceneReflectionRefractionAndShadowsMiniProj1() {
@@ -263,7 +263,7 @@ public class ReflectionRefractionTests {
 	/**
 	 * produces out custom picture made up of 5 triangles (one big one and 4 small
 	 * ones making up squares)
-	 * and 5 spheres and with a point light, spot light an dsirectional light
+	 * and 5 spheres and with a point light, spot light an directional light
 	 */
 	@Test
 	public void testCustomSceneReflectionRefractionAndShadowsMiniProj2() {
