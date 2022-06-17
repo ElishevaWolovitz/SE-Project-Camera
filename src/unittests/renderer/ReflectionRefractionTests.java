@@ -229,7 +229,7 @@ public class ReflectionRefractionTests {
 
 		// end timer
 		long endTime = System.currentTimeMillis();
-		System.out.println("Time: " + (endTime - startTime) / 1000.0 + " seconds");
+		System.out.println("Time - with no SS and no MT: " + (endTime - startTime) / 1000.0 + " seconds");
 	}
 
 	/**
@@ -257,7 +257,7 @@ public class ReflectionRefractionTests {
 
 		// end timer
 		long endTime = System.currentTimeMillis();
-		System.out.println("Time: " + (endTime - startTime) / 1000.0 + " seconds");
+		System.out.println("Time - with regular SS and no MT: " + (endTime - startTime) / 1000.0 + " seconds");
 	}
 
 	/**
@@ -285,6 +285,38 @@ public class ReflectionRefractionTests {
 
 		// end timer
 		long endTime = System.currentTimeMillis();
-		System.out.println("Time: " + (endTime - startTime) / 1000.0 + " seconds");
+		System.out.println("Time - with adaptive SS and no MT: " + (endTime - startTime) / 1000.0 + " seconds");
+	}
+	
+	/**
+	 * produces out custom picture made up of 5 triangles (one big one and 4 small
+	 * ones making up squares)
+	 * and 5 spheres and with a point light, spot light an directional light
+	 * with multi threading
+	 */
+	@Test
+	public void testCustomSceneReflectionRefractionAndShadowsMiniProj2withMT() {
+		// start a timer
+		long startTime = System.currentTimeMillis();
+
+		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setViewPlaneSize(300, 300).setViewPlaneDistance(1000).setSupersampling(SUPERSAMPLING_TYPE.NONE);
+
+		scene = getCustomSceneMiniProject1();
+
+		ImageWriter imageWriter = new ImageWriter("customSceneReflectionRefractionAndShadowsMiniProj1withAdaptiveWithMT", 600, 600);
+		camera.setImageWriter(imageWriter) //
+				.setRayTracer(new RayTracerBasic(scene)) //
+				.setSupersampling(SUPERSAMPLING_TYPE.ADAPTIVE) //
+				.setAdaptiveSupersamplingMaxRecursionDepth(4) //
+				.setMultithreading(3) //
+				.setDebugPrint(0.1) //
+				.setThreadsCount(3)//
+				.renderImage() //
+				.writeToImage();
+
+		// end timer
+		long endTime = System.currentTimeMillis();
+		System.out.println("Time - with adaptive SS and with MT: " + (endTime - startTime) / 1000.0 + " seconds");
 	}
 }

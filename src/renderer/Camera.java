@@ -33,7 +33,8 @@ public class Camera {
     
     //attributes added for multi-threading
     private boolean multiThreading; 
-    private int printInterval; 
+    private double printInterval; 
+    private double threadsCount; 
 
     // These values are not hard-coded since they can be overriden by calling the
     // respective setter methods
@@ -211,22 +212,43 @@ public class Camera {
     
     /**
      * setter for whether you want to do multi threading 
-     * on image(interval set and not zero) or not(interval set to zero)
-     * if you do want to do multi threading you send an interval for how often you want to print it out
-     * @param interval - an int, it determines if there will be multi threading and if there is what the print interval should be
-     * @return the object camera
+     * on image(x set and not zero) or not(x set to zero)
+     * @param x
+     * @return camera
      */
-    public Camera setMultiThreading(int interval)
+	//with the setters in teapot it did setMultithreading(3) 
+    //i dont know why it was 3 i just took ot as if 0 dont do multi threading else do it 
+    public Camera setMultithreading(double x)
     {
-    	if(interval == 0)
+    	if(x == 0)
     		multiThreading = false; 
     	else 
     	{
-    		this.printInterval = interval; 
     		multiThreading = true; 
     	}
     	return this; 
     }
+    /**
+     * setter for printInterval
+     * @param d
+     * @return camera
+     */
+    //i dont know what this debugPrint or this printInterval is ( I assumed that are the same thing) 
+	public Camera setDebugPrint(double d) {
+		printInterval = d; 
+		return this; 
+	}
+	/**
+	 * setter for how many threads to do
+	 * @param d
+	 * @return camera
+	 */
+	//i dont know if this is correct just assemd it and made it a anouther variable in camera 
+	public Camera setThreadsCount(double d)
+	{
+		threadsCount = d; 
+		return this; 
+	}
 
     /**
      * Constructs a ray through a pixel from the camera
@@ -286,7 +308,7 @@ public class Camera {
         if(multiThreading == true)
         {
         	Pixel.initialize(numRows, numColumns, printInterval);
-        	//i dont know what threadsCount is gave no info about this? 
+        	//i don't know what threadsCount is gave no info about this????????? 
     		while(threadsCount --> 0)
     		{
     			new Thread(()->{
@@ -295,6 +317,16 @@ public class Camera {
     					//- but we did ray = constructRayThroughPixel(...) - was i right to change it to this? 
     					//feel like its wrong but dont know where to put this
     					ray = constructRayThroughPixel(numColumns, numRows, pixel.col, pixel.row);
+    	                if (supersamplingType == SUPERSAMPLING_TYPE.ADAPTIVE) {
+    	                    color = calcAdaptiveSupersamplingColor(ray, pixelWidth, pixelHeight,
+    	                            adaptiveSupersamplingMaxRecursionDepth);
+    	                } else if (supersamplingType == SUPERSAMPLING_TYPE.REGULAR) {
+    	                    color = calcSupersamplingColor(ray, pixelWidth, pixelHeight);
+    	                } else {
+    	                    color = rayTracer.traceRay(ray);
+    	                }
+    	                imageWriter.writePixel(pixel.col, pixel.row, color);
+    					
     				}
     			}).start(); 
     		}
@@ -459,5 +491,4 @@ public class Camera {
             throw new MissingResourceException(null, null, null);
         imageWriter.writeToImage();
     }
-
 }
