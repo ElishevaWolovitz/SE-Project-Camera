@@ -1,5 +1,6 @@
 package renderer;
 
+import java.util.stream.*; 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingResourceException;
@@ -29,6 +30,10 @@ public class Camera {
     private double viewPlaneDistance;
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
+    
+    //attributes added for multi-threading
+    private boolean multiThreading; 
+    private int printInterval; 
 
     // These values are not hard-coded since they can be overriden by calling the
     // respective setter methods
@@ -203,6 +208,25 @@ public class Camera {
         p0 = p;
         return this;
     }
+    
+    /**
+     * setter for whether you want to do multi threading 
+     * on image(interval set and not zero) or not(interval set to zero)
+     * if you do want to do multi threading you send an interval for how often you want to print it out
+     * @param interval - an int, it determines if there will be multi threading and if there is what the print interval should be
+     * @return the object camera
+     */
+    public Camera setMultiThreading(int interval)
+    {
+    	if(interval == 0)
+    		multiThreading = false; 
+    	else 
+    	{
+    		this.printInterval = interval; 
+    		multiThreading = true; 
+    	}
+    	return this; 
+    }
 
     /**
      * Constructs a ray through a pixel from the camera
@@ -259,19 +283,38 @@ public class Camera {
         // height and width of the pixel
         double pixelWidth = viewPlaneWidth / numColumns;
         double pixelHeight = viewPlaneHeight / numRows;
-        for (int row = 0; row < numRows; row++) {
-            for (int col = 0; col < numColumns; col++) {
-                ray = constructRayThroughPixel(numColumns, numRows, col, row);
-                if (supersamplingType == SUPERSAMPLING_TYPE.ADAPTIVE) {
-                    color = calcAdaptiveSupersamplingColor(ray, pixelWidth, pixelHeight,
-                            adaptiveSupersamplingMaxRecursionDepth);
-                } else if (supersamplingType == SUPERSAMPLING_TYPE.REGULAR) {
-                    color = calcSupersamplingColor(ray, pixelWidth, pixelHeight);
-                } else {
-                    color = rayTracer.traceRay(ray);
-                }
-                imageWriter.writePixel(col, row, color);
-            }
+        if(multiThreading == true)
+        {
+        	Pixel.initialize(numRows, numColumns, printInterval);
+        	//i dont know what threadsCount is gave no info about this? 
+    		while(threadsCount --> 0)
+    		{
+    			new Thread(()->{
+    				for(Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone()) {
+    					//?????????????? in sheets it says just castRay(numColoumns, numRows, pixel.col, pixel.row)
+    					//- but we did ray = constructRayThroughPixel(...) - was i right to change it to this? 
+    					//feel like its wrong but dont know where to put this
+    					ray = constructRayThroughPixel(numColumns, numRows, pixel.col, pixel.row);
+    				}
+    			}).start(); 
+    		}
+    		Pixel.waitToFinish(); 
+        }
+        else {
+        	for (int row = 0; row < numRows; row++) {
+	            for (int col = 0; col < numColumns; col++) {
+	            	ray = constructRayThroughPixel(numColumns, numRows, col, row);
+	                if (supersamplingType == SUPERSAMPLING_TYPE.ADAPTIVE) {
+	                    color = calcAdaptiveSupersamplingColor(ray, pixelWidth, pixelHeight,
+	                            adaptiveSupersamplingMaxRecursionDepth);
+	                } else if (supersamplingType == SUPERSAMPLING_TYPE.REGULAR) {
+	                    color = calcSupersamplingColor(ray, pixelWidth, pixelHeight);
+	                } else {
+	                    color = rayTracer.traceRay(ray);
+	                }
+	                imageWriter.writePixel(col, row, color);
+	            }
+        	}
         }
         return this;
     }
