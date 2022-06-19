@@ -2,7 +2,8 @@ package unittest.special;
 
 import static java.awt.Color.YELLOW;
 
-import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import geometries.Triangle;
 import lighting.PointLight;
@@ -13,6 +14,7 @@ import primitives.Vector;
 import renderer.Camera;
 import renderer.ImageWriter;
 import renderer.RayTracerBasic;
+import renderer.Camera.SUPERSAMPLING_TYPE;
 import scene.Scene;
 
 /**
@@ -26,7 +28,8 @@ public class TeapotTest {
 	private final Camera camera = new Camera(new Point(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, 1, 0)) //
 			.setViewPlaneDistance(1000).setViewPlaneSize(200, 200) //
 			.setImageWriter(imageWriter) //
-			.setMultithreading(3).setDebugPrint(0.1).setThreadsCount(3);
+			.setMultithreading(0).setDebugPrint(0.1).setSupersampling(SUPERSAMPLING_TYPE.REGULAR)
+			.setSupersamplingGridSize(9);
 
 	private final Scene scene = new Scene("Test scene");
 
@@ -1567,10 +1570,10 @@ public class TeapotTest {
 		);
 		scene.lights.add(new PointLight(new Color(500, 500, 500), new Point(100, 0, -100)).setKQ(0.000001));
 
-		camera.setRayTracer(new RayTracerBasic(scene)); 
-		camera.printGrid(50, new Color(YELLOW)); 
+		camera.setRayTracer(new RayTracerBasic(scene));
+		camera.printGrid(50, new Color(YELLOW));
 		camera.renderImage()//
-		.writeToImage();
+				.writeToImage();
 	}
 
 }

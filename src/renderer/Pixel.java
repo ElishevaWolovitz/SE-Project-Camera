@@ -90,20 +90,20 @@ class Pixel {
 	 * run from the main thread
 	 */
 	public static void waitToFinish() {
-		if (print)
+		if (print) {
 			System.out.printf(PRINT_FORMAT, 0d);
 
-		while (last < totalPixels) {
-			printPixel();
-			try {
-				Thread.sleep(printInterval);
-			} catch (InterruptedException ignore) {
-				if (print)
+			while (last < totalPixels) {
+				printPixel();
+				try {
+					Thread.sleep(printInterval);
+				} catch (InterruptedException ignore) {
 					System.out.print("");
+				}
 			}
-		}
-		if (print)
+
 			System.out.println("100.0%");
+		}
 	}
 
 	/**

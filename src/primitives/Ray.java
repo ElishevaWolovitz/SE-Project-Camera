@@ -30,7 +30,7 @@ public class Ray {
 	public Ray(Point p1, Vector v1) {
 		dir = v1.normalize();
 		p0 = p1;
-	} 
+	}
 
 	/**
 	 * constructor for ray:
@@ -72,6 +72,13 @@ public class Ray {
 		return p0.toString() + dir.toString();
 	}
 
+	/**
+	 * Get a point starting from the ray's head and moving in the direction of the
+	 * ray by the given distance.
+	 * 
+	 * @param t - distance to move
+	 * @return a point at the given distance from the ray's head
+	 */
 	public Point getPoint(double t) {
 		return p0.add(dir.scale(t));
 	}

@@ -311,7 +311,6 @@ public class ReflectionRefractionTests {
 				.setAdaptiveSupersamplingMaxRecursionDepth(4) //
 				.setMultithreading(3) //
 				.setDebugPrint(0.1) //
-				.setThreadsCount(3)//
 				.renderImage() //
 				.writeToImage();
 
