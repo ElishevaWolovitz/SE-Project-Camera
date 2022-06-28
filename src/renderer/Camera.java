@@ -392,10 +392,9 @@ public class Camera {
         for (Ray ray : rays) {
             result = result.add(rayTracer.traceRay(ray));
         }
-        result = result.add(rayTracer.traceRay(mainRay));
         // divide the color by the number of rays to get the average color
         double numRays = (double) supersamplingGridSize * supersamplingGridSize;
-        return result.reduce(numRays + 1);
+        return result.reduce(numRays);
     }
 
     /**

@@ -201,6 +201,10 @@ public class ReflectionRefractionTests {
 		scene.lights.add(new SpotLight(new Color(700, 400, 400), new Point(-175, -100, -50), new Vector(175, 25, -75))//
 				.setKL(0.00001).setKQ(0.000005)); //
 		scene.lights.add(new DirectionalLight(new Color(200, 50, 50), new Vector(-300, -300, -150)));
+		scene.lights.add(new PointLight(new Color(300, 300, 400), new Point(0, 0, -400)) //
+				.setKL(0.00001).setKQ(0.000005));
+		scene.lights.add(new SpotLight(new Color(200,300, 300), new Point(-500,74,-50), new Vector(442, -149, -75))//
+				.setKL(0.00002).setKQ(0.000005)); //
 
 		return scene;
 	}
@@ -216,7 +220,7 @@ public class ReflectionRefractionTests {
 		long startTime = System.currentTimeMillis();
 
 		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-				.setViewPlaneSize(300, 300).setViewPlaneDistance(1000).setSupersampling(SUPERSAMPLING_TYPE.NONE);
+				.setViewPlaneSize(300, 300).setViewPlaneDistance(1000);
 
 		scene = getCustomSceneMiniProject1();
 
@@ -243,7 +247,7 @@ public class ReflectionRefractionTests {
 		long startTime = System.currentTimeMillis();
 
 		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-				.setViewPlaneSize(300, 300).setViewPlaneDistance(1000).setSupersampling(SUPERSAMPLING_TYPE.NONE);
+				.setViewPlaneSize(300, 300).setViewPlaneDistance(1000);
 
 		scene = getCustomSceneMiniProject1();
 
@@ -271,7 +275,7 @@ public class ReflectionRefractionTests {
 		long startTime = System.currentTimeMillis();
 
 		Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-				.setViewPlaneSize(300, 300).setViewPlaneDistance(1000).setSupersampling(SUPERSAMPLING_TYPE.NONE);
+				.setViewPlaneSize(300, 300).setViewPlaneDistance(1000);
 
 		scene = getCustomSceneMiniProject1();
 
@@ -279,7 +283,7 @@ public class ReflectionRefractionTests {
 		camera.setImageWriter(imageWriter) //
 				.setRayTracer(new RayTracerBasic(scene)) //
 				.setSupersampling(SUPERSAMPLING_TYPE.ADAPTIVE) //
-				.setAdaptiveSupersamplingMaxRecursionDepth(4) //
+				.setAdaptiveSupersamplingMaxRecursionDepth(3) //
 				.renderImage() //
 				.writeToImage();
 
